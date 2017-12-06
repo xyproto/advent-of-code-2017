@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include "numbers.h"
 #include "util.h"
 #include "vectorfield.h"
@@ -15,7 +16,14 @@ int main() {
 
     equal(vf.get(1,1), v);
 
+    cout << "ok" << endl;
+
     cout << vf.str() << endl;
+
+    cout << "And now 9x9 numbers:" << endl;
+
+    auto n = Numbers(3, 3);
+    cout << n.str() << endl;
 
     return 0;
 }

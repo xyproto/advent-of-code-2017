@@ -51,6 +51,24 @@ optional<Numbers> Vectorfield::apply(Numbers n) {
         // Size mismatch, return an optional with no value
         return nullopt;
     }
-    // TODO: Return an optional with the manipulated numbers
-    return nullopt;
+    // Make a copy of all the values.
+    // Some of them might be moved by the vectorfield, some might not.
+    auto n_out = n;
+    // For each cell in the vectorfield, move the number by the corresponding vector
+    for (size_t y=0; y < this->height(); ++y) {
+        for (size_t x=0; x < this->width(); ++x) {
+            int x_offset = _vf[y][x].first;
+            int y_offset = _vf[y][x].second;
+            // Get the value from n, but write them to n2
+            auto maybeInt = n.get(x, y);
+            int value = 0;
+            if (maybeInt) {
+                value = *maybeInt;
+            }
+            // Possibly overwrite values in n_out
+            n_out.set(x+x_offset, y+y_offset, value);
+        }
+    }
+    // Return an optional with the manipulated numbers
+    return optional {n_out};
 }

@@ -15,6 +15,17 @@ Numbers::Numbers(string fn) {
     }
 }
 
+// Initialize a new 2d vector with 0
+Numbers::Numbers(int w, int h) {
+    vector<int> row;
+    for (int i=0; i < w; ++i) {
+        row.push_back(0);
+    }
+    for (int i=0; i < h; ++i) {
+        _numbers.push_back(row);
+    }
+}
+
 string Numbers::str() {
     stringstream s;
     s << this->width() << "x" << this->height() << " vector of ints: " << endl;
@@ -105,4 +116,23 @@ vector<int> Numbers::divs() {
     return divs;
 }
 
+bool Numbers::set(size_t x, size_t y, int value) {
+    if (_numbers.size() <= y) {
+        return false;
+    }
+    if (_numbers[y].size() <= x) {
+        return false;
+    }
+    _numbers[y][x] = value;
+    return true;
+}
 
+optional<int> Numbers::get(size_t x, size_t y) {
+    if (_numbers.size() <= y) {
+        return nullopt;
+    }
+    if (_numbers[y].size() <= x) {
+        return nullopt;
+    }
+    return optional {_numbers[y][x]};
+}
