@@ -1,17 +1,17 @@
 #pragma once
 
 #include <stdlib.h>
+#include <optional>
 
 using namespace std;
 
 // return the last char
-// returns ' ' if given an empty string
-char last(std::string digits) {
+optional<char> last(std::string digits) {
     auto dl = digits.length();
     if (dl < 1) {
-        return ' ';
+        return nullopt;
     }
-    return digits.at(dl - 1);
+    return optional {digits.at(dl - 1)};
 }
 
 // must deal with signed ints for the < 0 check to work

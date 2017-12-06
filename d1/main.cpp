@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <optional>
 
 using namespace std;
 
@@ -16,13 +17,12 @@ sum_t sum_digits(std::string digits) {
 }
 
 // return the last char
-// returns ' ' if given an empty string
-char last(std::string digits) {
+optional<char> last(std::string digits) {
     auto dl = digits.length();
     if (dl < 1) {
-        return ' ';
+        return nullopt;
     }
-    return digits.at(dl - 1);
+    return optional {digits.at(dl - 1)};
 }
 
 // sum_equal_digits returns a sum of the digits that are equal to the next one

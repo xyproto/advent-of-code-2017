@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <optional>
 
 using namespace std;
 
@@ -16,13 +17,12 @@ sum_t sum_digits(std::string digits) {
 }
 
 // return the last char
-// returns ' ' if given an empty string
-char last(std::string digits) {
+optional<char> last(std::string digits) {
     auto dl = digits.length();
     if (dl < 1) {
-        return ' ';
+        return nullopt;
     }
-    return digits.at(dl - 1);
+    return optional {digits.at(dl - 1)};
 }
 
 // must deal with signed ints for the < 0 check to work
@@ -92,7 +92,7 @@ int main() {
     equal(sum_coupled_digits("1234"s, 1), 0);
     equal(sum_coupled_digits("91212129"s, 1), 9);
 
-#include "long_string.h"
+#include "long_string.hpp"
 
     equal(sum_coupled_digits(long_string, 1), 1144);
 

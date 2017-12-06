@@ -6,7 +6,6 @@
 using namespace std;
 
 // return the last char
-// returns ' ' if given an empty string
 optional<char> last(string digits) {
     auto dl = digits.length();
     if (dl < 1) {
