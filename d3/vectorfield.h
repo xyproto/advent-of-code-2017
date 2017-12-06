@@ -25,7 +25,7 @@ public:
     size_t width();
     size_t height();
 
-    pair<Numbers,error> apply(Numbers n); // apply the vectorfield to a 2d vector
+    optional<Numbers> apply(Numbers n); // apply the vectorfield to a 2d vector
 };
 
 // Fill a vectorfield with (0,0), given a width and a height.
@@ -72,10 +72,11 @@ size_t Vectorfield::width() {
 
 // apply the vectorfield to a 2d vector
 // returns a pair with a v2d and an error, if an error happened
-pair<Numbers,error> Vectorfield::apply(Numbers n) {
+optional<Numbers> Vectorfield::apply(Numbers n) {
     if (n.width() != this->width() || n.height() != this->height()) {
-        // Size mismatch, return an error
-        return pair<n, new_error("size mismatch"s)>;
+        // Size mismatch, return an optional with no value
+        return nullopt;
     }
-    return pair<n, nil>;
+    // TODO: Return an optional with the manipulated numbers
+    return nullopt;
 }

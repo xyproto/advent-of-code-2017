@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+main
+
+# Temp
+*.swp
+*.bak
+*.tmp
+*~
+
+# Database files
+*.db
