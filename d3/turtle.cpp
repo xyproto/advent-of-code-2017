@@ -46,8 +46,8 @@ void Turtle::left() {
     _direction.second = static_cast<int>(round(new_y));
 }
 
-void Turtle::write(Vectorfield vf) {
-    vf.set((size_t)_x, (size_t)_y, _direction);
+bool Turtle::write(Vectorfield vf) {
+    return vf.set((size_t)_x, (size_t)_y, _direction);
 }
 
 void Turtle::move_turn_write(Vectorfield vf, bool turn_left_after_moving) {

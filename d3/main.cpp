@@ -13,17 +13,7 @@ int main() {
 
     auto vf = Vectorfield(n.width(), n.height());
 
-    auto t = Turtle(pair<int, int>{2, 2}, pair<int, int>{0, 0});
-
-    cout << t.str() << endl;
-
-    t.set_direction(1, 0);
-
-    cout << t.str() << endl;
-
-    t.write(vf);
-
-    cout << vf.str() << endl;
+    auto t = Turtle(2, 2, 1, 0);
 
     // the left-turn pattern:
     // 1->2: true
@@ -34,15 +24,19 @@ int main() {
     // So:  1 1,  0 1  0 1,  0 0 1  0 0 1,  0 0 0 1  0 0 0 1, 0 0 0 0 1  0 0 0 0 1
     //
     for (int i=0; i < 5; ++i) {
-        for (int x=0; x < i; ++x) {
-            cout << "t.move_turn_write(vf, false); // move, and turn" << endl;
-            t.move_turn_write(vf, false);
+        for (int z=0; z < 2; ++z) {
+            for (int x=0; x < i; ++x) {
+                //cout << "0 ";
+                cout << t.str() << endl;
+                t.move_turn_write(vf, false);
+            }
+            //cout << "1, ";
             cout << t.str() << endl;
+            t.move_turn_write(vf, true);
         }
-        cout << "t.move_turn_write(vf, true); // move, and turn" << endl;
-        t.move_turn_write(vf, true);
-        cout << t.str() << endl;
     }
+    cout << t.str() << endl;
+    //cout << endl;
 
     //// Moving to 2 and setting the direction
     //t.move_turn_write(true); // move, and turn
