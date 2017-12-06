@@ -22,5 +22,5 @@ size_t clamp(int64_t i, size_t length) {
     while (i >= signed_length) {
         i -= signed_length;
     }
-    return i;
+    return (size_t)i;
 }

@@ -22,7 +22,7 @@ elif 'test' in COMMAND_LINE_TARGETS:
   sys.exit(0)
 
 # Prepare the compiler for C++17
-env = Environment(CXX = 'g++',
+env = Environment(CXX="g++",
                   CXXFLAGS = '-O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion')
 
 # Set the number of jobs to the number of CPUs

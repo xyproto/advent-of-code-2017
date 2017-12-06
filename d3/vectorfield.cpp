@@ -85,7 +85,7 @@ optional<Numbers> Vectorfield::apply(Numbers n) {
                 value = *maybeInt;
             }
             // Possibly overwrite values in n_out
-            n_out.set(x+x_offset, y+y_offset, value);
+            n_out.set((size_t)((int)x+x_offset), (size_t)((int)y+y_offset), value);
         }
     }
     // Return an optional with the manipulated numbers
