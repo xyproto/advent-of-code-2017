@@ -11,7 +11,8 @@
 
 using namespace std;
 
-using v3d = vector<vector<pair<int, int>>>;
+using p_t = pair<int, int>; // specifying movement, for instance (1, 0) for moving 1 to the right
+using v3d = vector<vector<p_t>>;
 
 class Vectorfield {
 
@@ -20,10 +21,10 @@ private:
 
 public:
 
-    Vectorfield(int w, int h); // create an empty vectorfield, with all positions set to (0, 0)
+    Vectorfield(size_t w, size_t h); // create an empty vectorfield, with all positions set to (0, 0)
     void spiral(); // create a field where all positions points in a spiral into the center
-    void set(int x, int y, pair<int, int> v); // set a value
-    pair<int, int> get(int x, int y); // get a value
+    bool set(size_t x, size_t y, p_t value); // set a value
+    optional<p_t> get(size_t x, size_t y); // get a value
     string str();
     size_t width();
     size_t height();

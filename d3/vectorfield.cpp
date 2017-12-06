@@ -4,31 +4,50 @@ using namespace std;
 
 // Fill a vectorfield with (0,0), given a width and a height.
 // TODO: Test that changing a value only affects that value.
-Vectorfield::Vectorfield(int w, int h) {
-    pair<int, int> zero_zero {0, 0};
-    vector<pair<int, int>> row;
-    for (int i=0; i < w; ++i) {
+Vectorfield::Vectorfield(size_t w, size_t h) {
+    p_t zero_zero {0, 0};
+    vector<p_t> row;
+    for (size_t i=0; i < w; ++i) {
         row.push_back(zero_zero);
     }
-    for (int i=0; i < h; ++i) {
+    for (size_t i=0; i < h; ++i) {
         _vf.push_back(row);
     }
 }
 
-void Vectorfield::set(int x, int y, pair<int, int> v) {
-    _vf[y][x] = v;
+bool Vectorfield::set(size_t x, size_t y, p_t value) {
+    if (_vf.size() <= y) {
+        return false;
+    }
+    if (_vf[y].size() <= x) {
+        return false;
+    }
+    _vf[y][x] = value;
+    return true;
 }
 
-pair<int, int> Vectorfield::get(int x, int y) {
-    return _vf[y][x];
+optional<p_t> Vectorfield::get(size_t x, size_t y) {
+    if (_vf.size() <= y) {
+        return nullopt;
+    }
+    if (_vf[y].size() <= x) {
+        return nullopt;
+    }
+    return optional {_vf[y][x]};
 }
 
 string Vectorfield::str() {
     stringstream s;
+    s << this->width() << "x" << this->height() << " vector of (x, y): " << endl;
     for (const auto &row : _vf) {
+        auto counter = row.size() - 1;
         for (const auto &p : row) {
-            s << "(" << p.first << ", " << p.second << ")" << endl;
+            s << "(" << p.first << ", " << p.second << ")";
+            if (counter --> 0) { // "go to" operator ;)
+                s << ", ";
+            }
         }
+        s << endl;
     }
     return s.str();
 }

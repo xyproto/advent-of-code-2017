@@ -29,9 +29,9 @@ Numbers::Numbers(int w, int h) {
 string Numbers::str() {
     stringstream s;
     s << this->width() << "x" << this->height() << " vector of ints: " << endl;
-    for (const vector<int> &v : _numbers) {
-        auto counter = v.size() - 1;
-        for (const int &i : v) {
+    for (const vector<int> &row : _numbers) {
+        auto counter = row.size() - 1;
+        for (const int &i : row) {
             s << i;
             if (counter --> 0) { // "go to" operator ;)
                 s << ", ";
