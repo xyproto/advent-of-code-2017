@@ -40,3 +40,9 @@ main
 
 # Database files
 *.db
+
+# Logs and output
+*.log
+output*.txt
+*_test
+!*_test.*
