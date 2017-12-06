@@ -1,0 +1,39 @@
+# -*- coding: utf-8 -*-
+
+import glob
+import multiprocessing
+import os
+import os.path
+import subprocess
+import sys
+
+# Custom command line targets
+if 'clean' in COMMAND_LINE_TARGETS:
+  cmd = [x for x in sys.argv if x != "clean"] + ["-c"]
+  output = subprocess.check_output(cmd)
+  print(os.linesep.join(output.split(os.linesep)[1:-1]))
+  sys.exit(0)
+
+# Prepare the compiler for C++17
+env = Environment(CXX = 'g++',
+                  CXXFLAGS = '-O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion')
+
+# Set the number of jobs to the number of CPUs
+SetOption('num_jobs', multiprocessing.cpu_count())
+
+# Random build-order, for the possiblity of using the cache better
+SetOption('random', 1)
+
+# Find all .cpp files that are not main.cpp and not *_test.cpp
+dep_src = [fn for fn in glob.glob("*.cpp") if not fn.endswith("_test.cpp") and fn != "main.cpp"]
+
+# Custom command line targets
+if 'test' in COMMAND_LINE_TARGETS:
+  BUILD_TARGETS = [x for x in BUILD_TARGETS if x != "test"]
+  # Build test executables (based on *_test.cpp)
+  for exe in [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]:
+    env.Program(exe, [exe + ".cpp"] + dep_src)
+else:
+  # Build main executable
+  main = env.Program("main", ["main.cpp"] + dep_src)
+  Default(main)

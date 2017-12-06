@@ -40,9 +40,16 @@ main
 
 # Database files
 *.db
+*.dblite
 
 # Logs and output
 *.log
 output*.txt
+
+# Keep *_test source files, skip executables and .o files
 *_test
 !*_test.*
+*_test.o
+
+# Build folders
+build/
