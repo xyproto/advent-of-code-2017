@@ -12,11 +12,11 @@ This is a learning experience for me.
 
 Compiling
 
-    g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion main.cpp -o main
+    g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion *.cpp -o main
 
 Compiling and running from within ViM:
 
-    :!g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion main.cpp -o main && ./main
+    :!g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion *.cpp -o main && ./main
 
 ## General info
 

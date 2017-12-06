@@ -1,6 +1,6 @@
 #include <iostream>
-#include "util.h"
 #include "numbers.h"
+#include "util.h"
 #include "vectorfield.h"
 
 using namespace std;
