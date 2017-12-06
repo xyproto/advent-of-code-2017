@@ -7,9 +7,16 @@ import os.path
 import subprocess
 import sys
 
+test_exes = [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]
+
 # Custom command line targets
 if 'clean' in COMMAND_LINE_TARGETS:
-  cmd = [x for x in sys.argv if x != "clean"] + ["-c"]
+  cmd = [x for x in sys.argv if x != "clean"] + ["-c"] + ["main"] + test_exes
+  output = subprocess.check_output(cmd)
+  print(os.linesep.join(output.split(os.linesep)[1:-1]))
+  sys.exit(0)
+elif 'test' in COMMAND_LINE_TARGETS:
+  cmd = [x for x in sys.argv if x != "test"] + test_exes
   output = subprocess.check_output(cmd)
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
   sys.exit(0)
@@ -27,13 +34,12 @@ SetOption('random', 1)
 # Find all .cpp files that are not main.cpp and not *_test.cpp
 dep_src = [fn for fn in glob.glob("*.cpp") if not fn.endswith("_test.cpp") and fn != "main.cpp"]
 
-# Custom command line targets
-if 'test' in COMMAND_LINE_TARGETS:
-  BUILD_TARGETS = [x for x in BUILD_TARGETS if x != "test"]
-  # Build test executables (based on *_test.cpp)
-  for exe in [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]:
-    env.Program(exe, [exe + ".cpp"] + dep_src)
-else:
-  # Build main executable
-  main = env.Program("main", ["main.cpp"] + dep_src)
-  Default(main)
+# Build main executable
+main = env.Program("main", ["main.cpp"] + dep_src)
+
+# Set up non-default targets for all the test executables (based on *_test.cpp)
+for exe in test_exes:
+  env.Program(exe, [exe + ".cpp"] + dep_src)
+
+# Only main is the default target
+Default(main)
