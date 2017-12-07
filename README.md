@@ -4,38 +4,31 @@ Solutions in C++17
 
 ## Disclaimer
 
-C, Assembly, Go and Python are familiar to me, but I am a complete beginner at C++17 and "modern" C++ in general.
+C, Assembly, Go and Python are familiar to me, but I am a beginner at C++17 and "modern" C++ in general.
 
 This is a learning experience for me.
 
 ## Requirements
 
-* g++ with support for C++17
-* scons and make (optional)
+* g++ (GCC) 7 or later
+* scons
+* make
 
 ## Building
 
     make
 
-or
+## Building and running tests
 
-    scons
+    make test
 
 ## Cleaning
 
     make clean
 
-or
+## Clang
 
-    scons clean
 
-## Building tests
-
-    make test
-
-or
-
-    scons test
 
 ## General info
 

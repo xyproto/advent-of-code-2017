@@ -1,10 +1,10 @@
 .PHONY: all clean test
 
 all:
-	@scons -Q
+	@scons --file=../misc/SConstruct -Q
 
 clean:
-	@scons -Q clean
+	@scons --file=../misc/SConstruct -Q clean
 
 test:
-	@scons -Q test
+	@scons --file=../misc/SConstruct -Q test

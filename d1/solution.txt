@@ -1,3 +1,0 @@
-Solution found by writing a prototype in Python:
-
-1144

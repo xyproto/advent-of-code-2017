@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import commands
 import glob
 import multiprocessing
 import os
@@ -11,14 +12,24 @@ test_exes = [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]
 
 # Custom command line targets
 if 'clean' in COMMAND_LINE_TARGETS:
+  # Replace the "clean" argument with "-c", and list all targets
   cmd = [x for x in sys.argv if x != "clean"] + ["-c"] + ["main"] + test_exes
-  output = subprocess.check_output(cmd)
+  # Clean
+  status, output = commands.getstatusoutput(" ".join(cmd))
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
-  sys.exit(0)
+  sys.exit(status)
 elif 'test' in COMMAND_LINE_TARGETS:
+  # Remove the "test" argument
   cmd = [x for x in sys.argv if x != "test"] + test_exes
+  # Build the tests
   output = subprocess.check_output(cmd)
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
+  # Run the tests
+  for exe in test_exes:
+    status, output = commands.getstatusoutput("./" + exe)
+    print(output)
+    if status != 0:
+      sys.exit(status)
   sys.exit(0)
 
 # Prepare the compiler for C++17
