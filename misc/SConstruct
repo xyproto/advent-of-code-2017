@@ -18,14 +18,20 @@ if 'clean' in COMMAND_LINE_TARGETS: # Clean built executables and object files
   status, output = commands.getstatusoutput(" ".join(cmd))
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
   sys.exit(status)
-elif 'buildtest' in COMMAND_LINE_TARGETS: # Build and run tests
+elif 'testbuild' in COMMAND_LINE_TARGETS: # Build and run tests
+  if not test_exes:
+    print("Nothing to build")
+    sys.exit(0)
   # Remove the "test" argument, and list all test-executable targets
-  cmd = [x for x in sys.argv if x != "buildtest"] + test_exes
+  cmd = [x for x in sys.argv if x != "testbuild"] + test_exes
   # Build the tests
   status, output = commands.getstatusoutput(" ".join(cmd))
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
   sys.exit(status)
 elif 'test' in COMMAND_LINE_TARGETS: # Build and run tests
+  if not test_exes:
+    print("Nothing to build")
+    sys.exit(0)
   # Remove the "test" argument, and list all test-executable targets
   cmd = [x for x in sys.argv if x != "test"] + test_exes
   # Build the tests
