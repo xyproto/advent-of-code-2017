@@ -69,9 +69,35 @@ void turtle_vf_test() {
     cout << vf.str() << endl;
 }
 
+void apply_test() {
+    // Fetch the numbers
+    auto n = Numbers("input.txt");
+    cout << n.str() << endl;
+
+    // Create a vectorfield of the same size
+    auto vf = Vectorfield(n.width(), n.height());
+    cout << vf.str() << endl;
+
+    // Twirl the vectorfield, from the center and outwards in spirals
+    vf.twirl();
+    cout << vf.str() << endl;
+
+    // Reverse the directions
+    vf.reverse();
+    cout << vf.str() << endl;
+
+    // Apply the vectorfield to the matrix and see what happens
+    auto new_n_maybe = vf.apply(n);
+    if (new_n_maybe) {
+        cout << new_n_maybe->str() << endl;
+        cout << "center value: " << new_n_maybe->center() << endl;
+    }
+}
+
 int main() {
     vf_test();
     turtle_vf_test();
+    apply_test();
 
     return 0;
 }

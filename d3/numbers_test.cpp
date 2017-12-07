@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main() {
+void basic_test() {
     // Create a 3x3 matrix
     auto n = Numbers(3, 3);
 
@@ -20,6 +20,44 @@ int main() {
 
     // Output the matrix
     cout << n.str() << endl;
+}
+
+int mustManhattan(Numbers* n, int value) {
+    auto distanceMaybe = n->manhattan(value);
+    if (distanceMaybe) {
+        return *distanceMaybe;
+    }
+    // Not found
+    return -1;
+}
+
+void manhattan_test() {
+    // Create a matrix, 5x5
+    auto n = Numbers(5);
+    cout << n.str() << endl;
+
+    // Create a twirl of numbers, from the center and out
+    n.twirl();
+    cout << n.str() << endl;
+
+    // Check basic manhattan distances
+    equal(mustManhattan(&n, 1), 0);
+    equal(mustManhattan(&n, 12), 3);
+    equal(mustManhattan(&n, 23), 2);
+
+    //maxnum for size 10 is approximately: (10-1)**2
+    // so for 1024 to exist, sqrt(1024)+1 should work
+
+    auto n2 = Numbers(sqrt(1024)+1);
+    n2.twirl();
+    equal(mustManhattan(&n2, 1), 0);
+    equal(mustManhattan(&n2, 12), 3);
+    equal(mustManhattan(&n2, 23), 2);
+}
+
+int main() {
+    basic_test();
+    manhattan_test();
 
     return 0;
 }

@@ -67,6 +67,19 @@ size_t Vectorfield::width() {
     return _vf[0].size();
 }
 
+// Reverse this vectorfield and return the pointer
+Vectorfield* Vectorfield::reverse() {
+    for (size_t y=0; y < this->height(); ++y) {
+        for (size_t x=0; x < this->width(); ++x) {
+            int xv = _vf[y][x].first;
+            int yv = _vf[y][x].second;
+            _vf[y][x].first = -xv;
+            _vf[y][x].second = -yv;
+        }
+    }
+    return this;
+}
+
 // apply the vectorfield to a 2d vector
 // returns a pair with a v2d and an error, if an error happened
 optional<Numbers> Vectorfield::apply(Numbers n) {
@@ -82,6 +95,8 @@ optional<Numbers> Vectorfield::apply(Numbers n) {
         for (size_t x=0; x < this->width(); ++x) {
             int x_offset = _vf[y][x].first;
             int y_offset = _vf[y][x].second;
+            x_offset *= -1;
+            y_offset *= -1;
             // Get the value from n, but write them to n2
             auto maybeInt = n.get(x, y);
             int value = 0;
@@ -106,11 +121,11 @@ bool Vectorfield::write(Turtle* t) {
 }
 
 // Add a twirl, going from the center and out in spirals
-void Vectorfield::twirl() {
+optional<Vectorfield*> Vectorfield::twirl() {
     size_t w = this->width();
     size_t h = this->height();
     if (w != h) {
-        return;
+        return nullopt;
     }
 
     auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
@@ -131,4 +146,5 @@ void Vectorfield::twirl() {
             }
         }
     }
+    return optional {this};
 }

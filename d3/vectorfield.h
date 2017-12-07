@@ -29,6 +29,9 @@ public:
 
     bool write(Turtle* t); // at the x,y from the turtle, write the turtle direction to the vector field
     bool write(int x, int y, pair<int, int> direction);
-    void twirl(); // create a twirl from the center and out in spirals
+
+    optional<Vectorfield*> twirl(); // create a twirl from the center and out in spirals
+    Vectorfield* reverse(); // reverse the direction of all the vectors
+
     optional<Numbers> apply(Numbers n); // apply the vectorfield to a 2d vector
 };

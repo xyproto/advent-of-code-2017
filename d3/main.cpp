@@ -1,19 +1,26 @@
 #include <iostream>
-#include <utility>
 #include "numbers.h"
-#include "util.h"
-#include "vectorfield.h"
-#include "turtle.h"
+#include "test.h"
 
 using namespace std;
 
+int manhattan(int value) {
+    auto n = Numbers(static_cast<int>(sqrt(value))+2);
+    n.twirl();
+    auto distanceMaybe = n.manhattan(value);
+    if (distanceMaybe) {
+        return *distanceMaybe;
+    }
+    // Not found
+    return -1;
+}
+
 int main() {
-    auto n = Numbers("input.txt");
-    cout << n.str() << endl;
+    equal(manhattan(1), 0);
+    equal(manhattan(12), 3);
+    equal(manhattan(23), 2);
+    equal(manhattan(1024), 31);
 
-    auto vf = Vectorfield(n.width(), n.height());
-    cout << vf.str() << endl;
-    vf.twirl();
-    cout << vf.str() << endl;
-
+    cout << "answer: " << manhattan(368078) << endl; // 371! :)
+    return 0;
 }

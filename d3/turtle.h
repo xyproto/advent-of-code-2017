@@ -1,7 +1,12 @@
 #pragma once 
 
 #include <math.h>
-#include "numbers.h" // for p_t = pair<int, int>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+using p_t = pair<int, int>;
 
 class Turtle {
 private:

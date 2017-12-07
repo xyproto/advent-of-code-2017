@@ -26,6 +26,16 @@ Numbers::Numbers(int w, int h) {
     }
 }
 
+Numbers::Numbers(int w) {
+   vector<int> row;
+   for (int i=0; i < w; ++i) {
+       row.push_back(0);
+   }
+   for (int i=0; i < w; ++i) {
+       _numbers.push_back(row);
+   }
+}
+
 string Numbers::str() {
     stringstream s;
     s << this->width() << "x" << this->height() << " vector of ints: " << endl;
@@ -135,4 +145,80 @@ optional<int> Numbers::get(size_t x, size_t y) {
         return nullopt;
     }
     return optional {_numbers[y][x]};
+}
+
+// the center value, or -1
+int Numbers::center() {
+    auto w2 = this->width() / 2;
+    auto h2 = this->height() / 2;
+    auto maybeInt = this->get(w2, h2);
+    if (maybeInt) {
+        return *maybeInt;
+    }
+    return -1;
+}
+
+// finds the position of a value
+optional<p_t> Numbers::find(int value) {
+    if (this->empty()) {
+        return nullopt;
+    }
+    for (size_t y = 0; y < this->height(); ++y) {
+        for (size_t x = 0; x < this->width(); ++x) {
+            if (_numbers[y][x] == value) {
+                return optional {p_t {x, y}};
+            }
+        }
+    }
+    // Not found
+    return nullopt;
+}
+
+// finds the manhattan distance from the value, if found, to the center
+optional<int> Numbers::manhattan(int value) {
+    auto posMaybe = this->find(value);
+    if (posMaybe) {
+        auto pos = *posMaybe;
+        auto c_x = this->width() / 2;
+        auto c_y = this->height() / 2;
+        auto distance = abs((int)(pos.first - c_x)) + abs((int)(pos.second - c_y));
+        return optional {distance};
+    }
+    // Not found
+    return nullopt;
+}
+
+// Write the value to the same position as the turtle
+bool Numbers::write(Turtle* t, int value) {
+    return this->set((size_t)t->x(), (size_t)t->y(), value);
+}
+
+// Add a twirl, going from the center and out in spirals
+optional<Numbers*> Numbers::twirl() {
+    size_t w = this->width();
+    size_t h = this->height();
+    if (w != h) {
+        return nullopt;
+    }
+    auto counter = 1;
+
+    auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
+    this->write(&t, counter++);
+
+    // Run the turtle round in circles
+    for (size_t i=0; i < w; ++i) {
+        for (uint8_t z=0; z < 2; ++z) {
+            for (size_t x=0; x < i; ++x) {
+                t.move_turn(false);
+                if (!this->write(&t, counter++)) {
+                    break;
+                }
+            }
+            t.move_turn(true);
+            if (!this->write(&t, counter++)) {
+                break;
+            }
+        }
+    }
+    return optional {this};
 }
