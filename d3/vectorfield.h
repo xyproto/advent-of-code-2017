@@ -8,11 +8,9 @@
 #include <sstream>
 #include <optional>
 #include "numbers.h"
+#include "turtle.h"
 
 using namespace std;
-
-using p_t = pair<int, int>; // specifying movement, for instance (1, 0) for moving 1 to the right
-using v3d = vector<vector<p_t>>;
 
 class Vectorfield {
 
@@ -29,6 +27,8 @@ public:
     size_t width();
     size_t height();
 
+    bool write(Turtle* t); // at the x,y from the turtle, write the turtle direction to the vector field
+    bool write(int x, int y, pair<int, int> direction);
+    void twirl(); // create a twirl from the center and out in spirals
     optional<Numbers> apply(Numbers n); // apply the vectorfield to a 2d vector
 };
-

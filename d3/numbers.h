@@ -10,6 +10,9 @@ using namespace std;
 
 using v2d = vector<vector<int>>;
 
+using p_t = pair<int, int>; // specifying movement, for instance (1, 0) for moving 1 to the right
+using v3d = vector<vector<p_t>>;
+
 class Numbers {
 
 private:

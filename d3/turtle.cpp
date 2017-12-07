@@ -46,16 +46,23 @@ void Turtle::left() {
     _direction.second = static_cast<int>(round(new_y));
 }
 
-bool Turtle::write(Vectorfield vf) {
-    return vf.set((size_t)_x, (size_t)_y, _direction);
-}
+//bool Turtle::write(Vectorfield* vf) {
+//    return vf->set((size_t)_x, (size_t)_y, _direction);
+//}
+//
+//bool Turtle::move_turn_write(Vectorfield* vf, bool turn_left_after_moving) {
+//    this->forward();
+//    if (turn_left_after_moving) {
+//        this->left();
+//    }
+//    return this->write(vf);
+//}
 
-void Turtle::move_turn_write(Vectorfield vf, bool turn_left_after_moving) {
+void Turtle::move_turn(bool turn_left_after_moving) {
     this->forward();
     if (turn_left_after_moving) {
         this->left();
     }
-    this->write(vf);
 }
 
 int Turtle::x() {

@@ -1,9 +1,6 @@
 #include "vectorfield.h"
 
-using namespace std;
-
 // Fill a vectorfield with (0,0), given a width and a height.
-// TODO: Test that changing a value only affects that value.
 Vectorfield::Vectorfield(size_t w, size_t h) {
     p_t zero_zero {0, 0};
     vector<p_t> row;
@@ -16,10 +13,7 @@ Vectorfield::Vectorfield(size_t w, size_t h) {
 }
 
 bool Vectorfield::set(size_t x, size_t y, p_t value) {
-    if (_vf.size() <= y) {
-        return false;
-    }
-    if (_vf[y].size() <= x) {
+    if ((_vf.size() <= y) || (y < 0) || (x < 0) || (_vf[y].size() <=x )) {
         return false;
     }
     _vf[y][x] = value;
@@ -42,7 +36,17 @@ string Vectorfield::str() {
     for (const auto &row : _vf) {
         auto counter = row.size() - 1;
         for (const auto &p : row) {
-            s << "(" << p.first << ", " << p.second << ")";
+            if (p.first == -1 && p.second == 0) {
+                s << "<";
+            } else if (p.first == 0 && p.second == -1) {
+                s << "^";
+            } else if (p.first == 1 && p.second == 0) {
+                s << ">"s;
+            } else if (p.first == 0 && p.second == 1) {
+                s << "v"s;
+            } else {
+                s << "(" << p.first << ", " << p.second << ")";
+            }
             if (counter --> 0) { // "go to" operator ;)
                 s << ", ";
             }
@@ -90,4 +94,41 @@ optional<Numbers> Vectorfield::apply(Numbers n) {
     }
     // Return an optional with the manipulated numbers
     return optional {n_out};
+}
+
+bool Vectorfield::write(int x, int y, pair<int, int> direction) {
+    return this->set((size_t)x, (size_t)y, direction);
+}
+
+// Write the turtle direction to the same position as the turtle in the vectorfield
+bool Vectorfield::write(Turtle* t) {
+    return this->set((size_t)t->x(), (size_t)t->y(), t->get_direction());
+}
+
+// Add a twirl, going from the center and out in spirals
+void Vectorfield::twirl() {
+    size_t w = this->width();
+    size_t h = this->height();
+    if (w != h) {
+        return;
+    }
+
+    auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
+    this->write(&t);
+
+    // Run the turtle round in circles
+    for (size_t i=0; i < w; ++i) {
+        for (uint8_t z=0; z < 2; ++z) {
+            for (size_t x=0; x < i; ++x) {
+                t.move_turn(false);
+                if (!this->write(&t)) {
+                    break;
+                }
+            }
+            t.move_turn(true);
+            if (!this->write(&t)) {
+                break;
+            }
+        }
+    }
 }

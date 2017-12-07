@@ -1,5 +1,7 @@
+#pragma once 
+
 #include <math.h>
-#include "vectorfield.h" // for p_t = pair<int, int>
+#include "numbers.h" // for p_t = pair<int, int>
 
 class Turtle {
 private:
@@ -19,9 +21,11 @@ public:
   p_t get_direction();
   void forward();
   void left();
-  bool write(Vectorfield vf);
-  void move_turn_write(Vectorfield vf, bool turn_left_after_moving);
   int x();
   int y();
   string str();
+
+  //bool write(Vectorfield* vf);
+  //bool move_turn_write(Vectorfield* vf, bool turn_left_after_moving);
+  void move_turn(bool turn_left_after_moving);
 };

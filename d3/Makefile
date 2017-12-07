@@ -1,10 +1,10 @@
-.PHONY: clean
+.PHONY: all clean test
 
-main:
+all:
 	@scons -Q
-
-test:
-	@scons -Q test
 
 clean:
 	@scons -Q clean
+
+test:
+	@scons -Q test
