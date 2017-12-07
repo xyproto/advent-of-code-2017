@@ -7,7 +7,7 @@ using namespace std;
 void vf_test() {
     // Create a 3x3 vectorfield
     auto vf = Vectorfield(3, 3);
-    
+
     // Test basic set and get for the vectorfield
     pair<int, int> v {1, 1};
     vf.set(1, 1, v);
@@ -24,7 +24,7 @@ void vf_test() {
 }
 
 void turtle_vf_test() {
-    auto n = Numbers("input.txt");
+    auto n = Numbers("vectorfield_input.txt");
     cout << n.str() << endl;
 
     auto vf = Vectorfield(n.width(), n.height());
