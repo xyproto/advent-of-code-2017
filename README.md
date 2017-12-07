@@ -8,15 +8,34 @@ C, Assembly, Go and Python are familiar to me, but I am a complete beginner at C
 
 This is a learning experience for me.
 
+## Requirements
+
+* g++ with support for C++17
+* scons and make (optional)
+
 ## Building
 
-Compiling
+    make
 
-    g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion *.cpp -o main
+or
 
-Compiling and running from within ViM:
+    scons
 
-    :!g++ -O2 -std=c++17 -Wfatal-errors -pedantic -Wall -Wconversion *.cpp -o main && ./main
+## Cleaning
+
+    make clean
+
+or
+
+    scons clean
+
+## Building tests
+
+    make test
+
+or
+
+    scons test
 
 ## General info
 
