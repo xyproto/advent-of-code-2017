@@ -11,15 +11,22 @@ import sys
 test_exes = [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]
 
 # Custom command line targets
-if 'clean' in COMMAND_LINE_TARGETS:
+if 'clean' in COMMAND_LINE_TARGETS: # Clean built executables and object files
   # Replace the "clean" argument with "-c", and list all targets
   cmd = [x for x in sys.argv if x != "clean"] + ["-c"] + ["main"] + test_exes
   # Clean
   status, output = commands.getstatusoutput(" ".join(cmd))
   print(os.linesep.join(output.split(os.linesep)[1:-1]))
   sys.exit(status)
-elif 'test' in COMMAND_LINE_TARGETS:
-  # Remove the "test" argument
+elif 'buildtest' in COMMAND_LINE_TARGETS: # Build and run tests
+  # Remove the "test" argument, and list all test-executable targets
+  cmd = [x for x in sys.argv if x != "buildtest"] + test_exes
+  # Build the tests
+  status, output = commands.getstatusoutput(" ".join(cmd))
+  print(os.linesep.join(output.split(os.linesep)[1:-1]))
+  sys.exit(status)
+elif 'test' in COMMAND_LINE_TARGETS: # Build and run tests
+  # Remove the "test" argument, and list all test-executable targets
   cmd = [x for x in sys.argv if x != "test"] + test_exes
   # Build the tests
   output = subprocess.check_output(cmd)
@@ -31,6 +38,17 @@ elif 'test' in COMMAND_LINE_TARGETS:
     if status != 0:
       sys.exit(status)
   sys.exit(0)
+elif 'run' in COMMAND_LINE_TARGETS: # Build and run main
+  # Remove the "run" argument, and add "main"
+  cmd = [x for x in sys.argv if x != "run"] + ["main"]
+  # Build main
+  output = subprocess.check_output(cmd)
+  print(os.linesep.join(output.split(os.linesep)[1:-1]))
+  # Run main
+  status, output = commands.getstatusoutput("./main")
+  print(output)
+  sys.exit(status)
+
 
 # Prepare the compiler for C++17
 env = Environment(CXX="g++",

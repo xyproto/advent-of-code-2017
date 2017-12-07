@@ -1,6 +1,7 @@
 #include <iostream>
-#include "util.h"
 #include "numbers.h"
+#include "util.h"
+#include "test.h"
 
 using namespace std;
 
