@@ -222,3 +222,92 @@ optional<Numbers*> Numbers::twirl() {
     }
     return optional {this};
 }
+
+int Numbers::sum_surrounding(size_t x, size_t y) {
+    optional<int> maybeInt = optional {0};
+    int sum = 0;
+    for (int iy=-1; iy <= 1; ++iy) {
+        for (int ix=-1; ix <= 1; ++ix) {
+            if (iy == 0 && ix == 0) {
+                continue;
+            }
+            maybeInt = this->get(static_cast<size_t>(x + ix), static_cast<size_t>(y + iy));
+            if (maybeInt) {
+                sum += *maybeInt;
+            }
+        }
+    }
+    return sum;
+}
+
+// Add a twirl, going from the center and out in spirals, that also sums the surrounding numbers
+optional<Numbers*> Numbers::twirl_sum_surrounding() {
+    size_t w = this->width();
+    size_t h = this->height();
+    if (w != h) {
+        return nullopt;
+    }
+
+    auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
+    this->write(&t, 1);
+
+    // Run the turtle round in circles
+    for (size_t i=0; i < w; ++i) {
+        for (uint8_t z=0; z < 2; ++z) {
+            for (size_t x=0; x < i; ++x) {
+                t.move_turn(false);
+                if (!this->write(&t, this->sum_surrounding(t.x(), t.y()))) {
+                    break;
+                }
+            }
+            t.move_turn(true);
+            if (!this->write(&t, this->sum_surrounding(t.x(), t.y()))) {
+                break;
+            }
+        }
+    }
+    return optional {this};
+}
+
+// Add a twirl, going from the center and out in spirals, that also sums the surrounding numbers
+optional<int> Numbers::twirl_sum_surrounding_quit_after(int q) {
+    size_t w = this->width();
+    size_t h = this->height();
+    if (w != h) {
+        return nullopt;
+    }
+
+    auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
+    auto value = 1;
+    this->write(&t, value);
+
+    // Run the turtle round in circles
+    for (size_t i=0; i < w; ++i) {
+        for (uint8_t z=0; z < 2; ++z) {
+            for (size_t x=0; x < i; ++x) {
+                t.move_turn(false);
+                value = this->sum_surrounding(t.x(), t.y());
+                if (value > q) {
+                    return optional {value};
+                }
+                if (!this->write(&t, value)) {
+                    break;
+                }
+            }
+            t.move_turn(true);
+            value = this->sum_surrounding(t.x(), t.y());
+            if (value > q) {
+                return optional {value};
+            }
+            if (!this->write(&t, value)) {
+                break;
+            }
+        }
+    }
+    return nullopt; // not found
+}
+
+int next_twirl_sum_number(int size, int value) {
+    auto n = Numbers(size);
+    return must(n.twirl_sum_surrounding_quit_after(value), -1);
+}

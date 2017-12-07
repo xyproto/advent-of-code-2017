@@ -12,3 +12,10 @@ optional<const char> last(const string digits);
 // is not really clamping, since i is wrapped around instead of clamped
 constexpr size_t clamp(int64_t i, size_t length);
 
+template<typename T>
+T must(optional<T> maybeT, T notFoundValue) {
+    if (maybeT) {
+        return *maybeT;
+    }
+    return notFoundValue;
+}

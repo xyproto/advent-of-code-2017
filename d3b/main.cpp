@@ -1,28 +1,20 @@
 #include <iostream>
 #include "numbers.h"
 #include "test.h"
+#include "util.h"
 
 using namespace std;
 
-//int manhattan(int value) {
-//    auto n = Numbers(static_cast<int>(sqrt(value))+2);
-//    n.twirl();
-//    auto distanceMaybe = n.manhattan(value);
-//    if (distanceMaybe) {
-//        return *distanceMaybe;
-//    }
-//    // Not found
-//    return -1;
-//}
-
 int main() {
-    //equal(manhattan(1), 0);
-    //equal(manhattan(12), 3);
-    //equal(manhattan(23), 2);
-    //equal(manhattan(1024), 31);
-
-    //cout << "answer: " << manhattan(368078) << endl; // 371! :)
-    cout << "Hello, World!" << endl;
-
+    const int number_preceeding_the_result = 368078;
+    int result;
+    for (int size=0; size < 10; ++ size) {
+        // TODO, memoize previous and smaller sizes, or expand the dimentions while twirling
+        result = next_twirl_sum_number(size, number_preceeding_the_result);
+        if (result != -1) {
+            cout << "RESULT AT SIZE " << size << ": " << result << endl;
+            break;
+        }
+    }
     return 0;
 }

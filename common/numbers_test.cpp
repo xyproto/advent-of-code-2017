@@ -1,4 +1,5 @@
 #include "numbers.h"
+#include "util.h"
 #include "test.h"
 
 using namespace std;
@@ -55,9 +56,21 @@ void manhattan_test() {
     equal(mustManhattan(&n2, 23), 2);
 }
 
+void sum_surrounding_test() {
+    auto n3 = Numbers(3);
+    n3.set(0,0,1);
+    n3.set(1,0,2);
+    n3.set(0,2,7);
+    equal(n3.sum_surrounding(1,1), 10);
+
+    equal(next_twirl_sum_number(5, 54), 57);
+    equal(next_twirl_sum_number(5, 330), 351);
+}
+
 int main() {
     basic_test();
     manhattan_test();
+    sum_surrounding_test();
 
     return 0;
 }

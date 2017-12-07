@@ -6,6 +6,7 @@
 #include <sstream>
 #include <optional>
 #include "turtle.h"
+#include "util.h"
 
 using namespace std;
 
@@ -43,6 +44,13 @@ public:
 
     optional<Numbers*> twirl(); // add a twirl
 
+    int sum_surrounding(size_t x, size_t y);
+
+    optional<Numbers*> twirl_sum_surrounding(); // add a twirl that sums the surrounding numbers as it goes
+
+    optional<int> twirl_sum_surrounding_quit_after(int q); // Return the following number after the one given
+
     bool write(Turtle* t, int value); // write a value at the turtle position
 };
 
+int next_twirl_sum_number(int size, int value);
