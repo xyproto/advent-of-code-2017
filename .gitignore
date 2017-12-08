@@ -53,3 +53,6 @@ output*.txt
 
 # Build folders
 build/
+
+# Unwanted IDE files
+*.kdev4

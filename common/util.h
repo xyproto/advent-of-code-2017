@@ -12,6 +12,7 @@ optional<const char> last(const string digits);
 // is not really clamping, since i is wrapped around instead of clamped
 constexpr size_t clamp(int64_t i, size_t length);
 
+// Return the optional value, or the notFoundValue if not
 template<typename T>
 T must(optional<T> maybeT, T notFoundValue) {
     if (maybeT) {
@@ -19,3 +20,12 @@ T must(optional<T> maybeT, T notFoundValue) {
     }
     return notFoundValue;
 }
+
+// Return the integer value, or -1 if nullopt
+constexpr int must(optional<int> maybeInt) {
+    if (maybeInt) {
+        return *maybeInt;
+    }
+    return -1;
+}
+
