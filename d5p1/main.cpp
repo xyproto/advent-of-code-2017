@@ -8,8 +8,8 @@
 using namespace std;
 
 int main() {
-    auto p = Program(vector<int> {0, 3, 0, 1, -3});
+    auto p = Program(vector<int> {0, 3, 0, 1, -3}, part1);
     p.run(5);
 
-    cout << "ANSWER: " << Program("input.txt").run() << endl;
+    cout << "ANSWER: " << Program("input.txt", part1).run() << endl;
 }
