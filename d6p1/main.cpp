@@ -8,9 +8,9 @@
 using namespace std;
 
 int main() {
-    auto memory = Memory();
+    auto memory = Memory(16);
 
-    auto largest_bank = memory.largest_bank();
+    auto largest_bank = memory.largest();
 
-    cout << largest_bank.str() << endl;
+    cout << memory.str() << endl;
 }
