@@ -28,7 +28,7 @@ sum_t sum_coupled_digits(std::string digits, const int64_t offset) {
     for (size_t i=0; i < digits.length(); i++) {
         digit = digits.at(i);
         // clamp must accept signed ints, because "i - offset" may be signed and < 0
-        other_digit = digits.at(clamp(i - offset, digits.length()));
+        other_digit = digits.at(clamp(static_cast<int64_t>(i - offset), static_cast<size_t>(digits.length())));
         if (digit == other_digit) {
             digit_couples += digit;
         }
@@ -42,20 +42,20 @@ sum_t sum_halfway_digits(std::string digits) {
 }
 
 int main() {
-    equal(clamp(0, 1), static_cast<size_t>(0));
-    equal(clamp(1, 1), static_cast<size_t>(0));
+    equal(clamp(0, 1), 0);
+    equal(clamp(1, 1), 0);
 
-    equal(clamp(0, 2), static_cast<size_t>(0));
-    equal(clamp(1, 2), static_cast<size_t>(1));
-    equal(clamp(2, 2), static_cast<size_t>(0));
+    equal(clamp(0, 2), 0);
+    equal(clamp(1, 2), 1);
+    equal(clamp(2, 2), 0);
 
-    equal(clamp(0, 3), static_cast<size_t>(0));
-    equal(clamp(1, 3), static_cast<size_t>(1));
-    equal(clamp(2, 3), static_cast<size_t>(2));
-    equal(clamp(3, 3), static_cast<size_t>(0));
+    equal(clamp(0, 3), 0);
+    equal(clamp(1, 3), 1);
+    equal(clamp(2, 3), 2);
+    equal(clamp(3, 3), 0);
 
-    equal(clamp(4, 3), static_cast<size_t>(1));
-    equal(clamp(-1, 3), static_cast<size_t>(2));
+    equal(clamp(4, 3), 1);
+    equal(clamp(-1, 3), 2);
 
     equal(sum_coupled_digits("1122"s, 1), static_cast<sum_t>(3));
     equal(sum_coupled_digits("1111"s, 1), static_cast<sum_t>(4));

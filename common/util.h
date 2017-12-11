@@ -10,7 +10,17 @@ optional<const char> last(const string digits);
 // must deal with signed ints for the < 0 check to work
 // returns an unsigned int
 // is not really clamping, since i is wrapped around instead of clamped
-constexpr size_t clamp(int64_t i, size_t length);
+template<typename T, typename U>
+constexpr T clamp(U i, T length) {
+    U signed_length = static_cast<U>(length); // used for dealing with "i" below
+    while (i < 0) {
+        i += signed_length;
+    }
+    while (i >= signed_length) {
+        i -= signed_length;
+    }
+    return static_cast<T>(i);
+}
 
 // Return the optional value, or the notFoundValue if not
 template<typename T>
