@@ -25,8 +25,11 @@ public:
     optional<pair<index_t, int>> largest();
 
     // Used together with must(T, U) to return a "not found" value
-    pair<index_t, int> NotFound = pair<index_t, int> {-1, -1};
+    pair<index_t, int> NotFound = pair<index_t, int> {0, -1};
 
     // Return the largest value, or -1 if not found
     int must_largest_value();
+
+    // Return the position with the largest value or 0 if not found
+    index_t must_largest_position();
 };

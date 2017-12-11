@@ -10,6 +10,7 @@ int main() {
 
     equal(must(memory.largest(), memory.NotFound).second, 7);
     equal(memory.must_largest_value(), 7);
+    equal(memory.must_largest_position(), static_cast<index_t>(2));
 
     return 0;
 }

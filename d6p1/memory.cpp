@@ -34,6 +34,11 @@ int Memory::must_largest_value() {
     return must(this->largest(), this->NotFound).second;
 }
 
+// Return the largest value, or -1 if not found
+index_t Memory::must_largest_position() {
+    return must(this->largest(), this->NotFound).first;
+}
+
 string Memory::str() {
     stringstream s;
     s << "Memory" << endl;
