@@ -10,7 +10,7 @@ using namespace std;
 int main() {
     auto memory = Memory(16);
 
-    auto largest_bank = memory.largest();
+    //auto largest = memory.largest();
 
     cout << memory.str() << endl;
 }

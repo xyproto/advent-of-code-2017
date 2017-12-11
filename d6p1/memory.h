@@ -3,23 +3,22 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <optional>
+#include <string>
 
 using namespace std;
 
-using block_t = vector<int>;
-using bank_t = vector<block_t>;
-using memory_t = vector<bank_t>;
+using index_t = size_t;
 
 class Memory {
 
 private:
-    memory_t _memory;
+    vector<int> _memory;
 
 public:
-    Memory(size_t memory_size);
+    Memory(vector<int> memory);
+    Memory(size_t size);
 
-    bank_t largest();
-    size_t length();
     string str();
-
+    optional<pair<index_t, int>> largest();
 };

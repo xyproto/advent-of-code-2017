@@ -1,47 +1,46 @@
 #include "memory.h"
 
-Memory::Memory(size_t memory_size) {
-    for (size_t i=0; i < memory_size; i++) {
-        _memory.push_back(bank_t{block_t{}});
+Memory::Memory(vector<int> memory) {
+    _memory = memory;
+}
+
+// Create an empty memory of size "size"
+Memory::Memory(size_t size) {
+    for (size_t x=0; x < size; x++) {
+        _memory.push_back(0);
     }
 }
 
-bank_t Memory::largest() {
-    // 16 banks must be initialized in the constructor
-    auto &largest_bank_so_far = _memory[0];
-    for (auto &bank: _memory) {
-        if (bank.size() > largest_bank_so_far.size()) {
-            largest_bank_so_far = bank;
-        }
+// Return the index and value of the largest value
+optional<pair<index_t, int>> Memory::largest() {
+    if (_memory.size() == 0) {
+        return nullopt;
     }
-    return largest_bank_so_far;
+    index_t counter = 0;
+    auto max_index = counter;
+    auto max_value = _memory[max_index];
+    for (const int &x: _memory) {
+        if (x > max_value) {
+            max_value = x;
+            max_index = counter;
+        }
+        counter++;
+    }
+    return optional {pair<index_t, int> {max_index, max_value}};
 }
 
 string Memory::str() {
     stringstream s;
     s << "Memory" << endl;
     s << "------" << endl;
-    size_t counter0 = 0;
-    for (auto &bank: _memory) {
-        size_t counter1 = 0;
-        s << "bank " << counter0++ << ":" << endl << "\t<";
-        for (const auto &block: bank) {
-            s << "block: [";
-            size_t counter2 = 0;
-            for (const int &x: block) {
-                s << x;
-                if (++counter2 != block.size()) {
-                    s << ", ";
-                }
-            }
-            s << "]";
-            if (++counter1 != bank.size()) {
-                s << endl;
-            }
+    s << "[";
+    size_t counter = 0;
+    for (auto &x: _memory) {
+        s << x;
+        if (++counter != _memory.size()) {
+            s << ", ";
         }
-        s << ">" << endl;
     }
+    s << "]";
     return s.str();
 }
-
-
