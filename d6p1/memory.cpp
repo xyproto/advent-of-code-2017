@@ -29,6 +29,11 @@ optional<pair<index_t, int>> Memory::largest() {
     return optional {pair<index_t, int> {max_index, max_value}};
 }
 
+// Return the largest value, or -1 if not found
+int Memory::must_largest_value() {
+    return must(this->largest(), this->NotFound).second;
+}
+
 string Memory::str() {
     stringstream s;
     s << "Memory" << endl;

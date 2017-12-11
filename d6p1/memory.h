@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <string>
+#include "util.h"
 
 using namespace std;
 
@@ -20,5 +21,12 @@ public:
     Memory(size_t size);
 
     string str();
+
     optional<pair<index_t, int>> largest();
+
+    // Used together with must(T, U) to return a "not found" value
+    pair<index_t, int> NotFound = pair<index_t, int> {-1, -1};
+
+    // Return the largest value, or -1 if not found
+    int must_largest_value();
 };
