@@ -5,8 +5,6 @@
 #include "program.h"
 #include "util.h"
 
-using namespace std;
-
 int main() {
     auto prog1 = Program(vector<int> {0, 3, 0, 1, -3}, part2);
     prog1.run(5);

@@ -1,6 +1,7 @@
 #include "numbers.h"
 
-using namespace std;
+using std::string;
+using std::vector;
 
 Numbers::Numbers(string fn) {
     string line;

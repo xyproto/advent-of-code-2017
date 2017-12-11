@@ -2,7 +2,9 @@
 #include "turtle.h"
 #include "test.h"
 
-using namespace std;
+using std::pair;
+using std::cout;
+using std::endl;
 
 void vf_test() {
     // Create a 3x3 vectorfield

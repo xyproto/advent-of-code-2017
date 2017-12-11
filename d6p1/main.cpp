@@ -5,9 +5,9 @@
 #include "util.h"
 #include "memory.h"
 
-using namespace std;
-
 int main() {
+    using std::cout;
+
     auto memory = Memory(16);
 
     //auto largest = memory.largest();

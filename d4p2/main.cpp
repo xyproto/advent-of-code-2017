@@ -1,11 +1,14 @@
 #include <iostream>
 #include <vector>
-#include "test.h"
 #include <fstream>
 #include <iterator>
 #include <sstream>
+#include "test.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::ifstream;
+using std::istringstream;
 
 using words_t = vector<string>;
 

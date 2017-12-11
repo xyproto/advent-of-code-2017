@@ -10,7 +10,13 @@
 #include "numbers.h"
 #include "turtle.h"
 
-using namespace std;
+using std::optional;
+using std::nullopt;
+using std::endl;
+using std::string;
+using std::stringstream;
+
+using namespace std::literals;
 
 class Vectorfield {
 

@@ -1,7 +1,8 @@
 #include "test.h"
 #include "turtle.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 void turtle_test() {
     auto t = Turtle(0, 0, 1, 0);

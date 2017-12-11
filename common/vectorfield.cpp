@@ -13,7 +13,7 @@ Vectorfield::Vectorfield(size_t w, size_t h) {
 }
 
 bool Vectorfield::set(size_t x, size_t y, p_t value) {
-    if ((_vf.size() <= y) || (y < 0) || (x < 0) || (_vf[y].size() <=x )) {
+    if ((_vf.size() <= y) || (_vf[y].size() <=x )) {
         return false;
     }
     _vf[y][x] = value;

@@ -3,7 +3,8 @@
 #include "util.h"
 #include "test.h"
 
-using namespace std;
+using std::string;
+using std::cout;
 
 int main() {
     auto n = Numbers("input.txt");

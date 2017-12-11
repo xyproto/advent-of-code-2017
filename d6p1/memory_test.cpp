@@ -2,9 +2,10 @@
 #include "util.h"
 #include "test.h"
 
-using namespace std;
-
 int main() {
+    using std::vector;
+    using std::cout;
+
     auto memory = Memory(vector<int> {0, 2, 7, 0});
     cout << memory.str() << endl;
 

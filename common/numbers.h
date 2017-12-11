@@ -8,7 +8,13 @@
 #include "turtle.h"
 #include "util.h"
 
-using namespace std;
+using std::vector;
+using std::optional;
+using std::ifstream;
+using std::istringstream;
+using std::istream_iterator;
+using std::endl;
+using std::nullopt;
 
 using v2d = vector<vector<int>>;
 

@@ -7,7 +7,13 @@
 #include <string>
 #include "util.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::optional;
+using std::pair;
+using std::nullopt;
+using std::stringstream;
+using std::endl;
 
 using index_t = size_t;
 

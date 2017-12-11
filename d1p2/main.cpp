@@ -4,12 +4,10 @@
 #include "test.h"
 #include "util.h"
 
-using namespace std;
-
 using sum_t = unsigned int; // uint64_t
 
-// sum_digits sums the digits in the given std::string and returns an integer of type sum_t
-sum_t sum_digits(std::string digits) {
+// sum_digits sums the digits in the given string and returns an integer of type sum_t
+sum_t sum_digits(string digits) {
     sum_t total = 0;
     for (const auto &digit : digits) {
         total += digit - '0';
@@ -21,8 +19,8 @@ sum_t sum_digits(std::string digits) {
 // sum_coupled_digits returns a sum of the digits that are equal to the +offset one
 // has clamping and wraparound, so an offset of 1 or 100 will still work, regardless of
 // the length of the given string of digits
-sum_t sum_coupled_digits(std::string digits, const int64_t offset) {
-    // a list of digit couples (neighbours, if offset is 1), as std::string
+sum_t sum_coupled_digits(string digits, const int64_t offset) {
+    // a list of digit couples (neighbours, if offset is 1), as string
     auto digit_couples = ""s;
     char digit, other_digit;
     for (size_t i=0; i < digits.length(); i++) {
@@ -36,7 +34,7 @@ sum_t sum_coupled_digits(std::string digits, const int64_t offset) {
     return sum_digits(digit_couples);
 }
 
-sum_t sum_halfway_digits(std::string digits) {
+sum_t sum_halfway_digits(string digits) {
     const int64_t offset = digits.length() / 2;
     return sum_coupled_digits(digits, offset);
 }

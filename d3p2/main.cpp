@@ -3,8 +3,6 @@
 #include "test.h"
 #include "util.h"
 
-using namespace std;
-
 int main() {
     const int number_preceeding_the_result = 368078;
     int result;

@@ -3,8 +3,6 @@
 #include "util.h"
 #include "numbers.h"
 
-using namespace std;
-
 int main() {
     auto n2 = Numbers("input_small.txt");
     auto divs = n2.divs();

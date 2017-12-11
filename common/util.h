@@ -2,7 +2,10 @@
 
 #include <optional>
 
-using namespace std;
+using std::optional;
+using std::string;
+
+using namespace std::literals;
 
 // return the last char
 optional<const char> last(const string digits);

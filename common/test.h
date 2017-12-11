@@ -3,7 +3,10 @@
 #include <iostream>
 #include <stdlib.h>
 
-using namespace std;
+using std::cout;
+using std::endl;
+
+using namespace std::literals;
 
 template<typename T>
 void equal(T a, T b) {

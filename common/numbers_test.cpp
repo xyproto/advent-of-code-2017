@@ -2,7 +2,7 @@
 #include "util.h"
 #include "test.h"
 
-using namespace std;
+using std::cout;
 
 void basic_test() {
     // Create a 3x3 matrix

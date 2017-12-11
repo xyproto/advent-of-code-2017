@@ -9,7 +9,13 @@
 #include <vector>
 #include "util.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::ifstream;
+using std::cout;
+using std::endl;
+using std::stringstream;
+using std::nullopt;
 
 using position_t = unsigned int;
 using counter_t = unsigned int;

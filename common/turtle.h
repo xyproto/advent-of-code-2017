@@ -4,7 +4,9 @@
 #include <string>
 #include <sstream>
 
-using namespace std;
+using std::pair;
+using std::string;
+using std::stringstream;
 
 using p_t = pair<int, int>;
 

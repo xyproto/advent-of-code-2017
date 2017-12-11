@@ -1,6 +1,8 @@
 #include "util.h"
 
-using namespace std;
+using std::string;
+using std::optional;
+using std::nullopt;
 
 // return the last char
 optional<const char> last(const string digits) {

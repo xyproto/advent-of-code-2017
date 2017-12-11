@@ -2,8 +2,6 @@
 #include "numbers.h"
 #include "test.h"
 
-using namespace std;
-
 int manhattan(int value) {
     auto n = Numbers(static_cast<int>(sqrt(value))+2);
     n.twirl();
