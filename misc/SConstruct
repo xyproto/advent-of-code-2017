@@ -63,21 +63,24 @@ SetOption('random', 1)
 
 # Compiler and compiler flags
 env = Environment(CXX="g++",
-                  CXXFLAGS='-std=c++17 -Wall -Wconversion -Wshadow -pedantic -Wfatal-errors')
-
-# extra=1
-if int(ARGUMENTS.get('extra', 0)):
-  env.Append(CXXFLAGS=' -Wextra')
-
-# clang=1
-if int(ARGUMENTS.get('clang', 0)):
-  env.Replace(CXX='clang++')
+                  CXXFLAGS='-std=c++17')
 
 # debug=1
 if int(ARGUMENTS.get('debug', 0)):
   env.Append(CXXFLAGS=' -O1 -g')
 else:
   env.Append(CXXFLAGS=' -O2')
+
+# clang=1
+if int(ARGUMENTS.get('clang', 0)):
+  env.Replace(CXX='clang++')
+
+# Warnings and fail at first error
+env.Append(CXXFLAGS=' -Wall -Wconversion -Wshadow -pedantic -Wfatal-errors')
+
+# extra=1, even more warnings
+if int(ARGUMENTS.get('extra', 0)):
+  env.Append(CXXFLAGS=' -Wextra')
 
 # Find all .cpp files that are not main.cpp and not *_test.cpp
 dep_src = [fn for fn in glob.glob("*.cpp") if not fn.endswith("_test.cpp") and fn != "main.cpp"]
