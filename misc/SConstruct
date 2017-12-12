@@ -76,7 +76,7 @@ if int(ARGUMENTS.get('clang', 0)):
   env.Replace(CXX='clang++')
 
 # Warnings and fail at first error
-env.Append(CXXFLAGS=' -Wall -Wconversion -Wshadow -pedantic -Wfatal-errors')
+env.Append(CXXFLAGS=' -Wall -Wshadow -pedantic -Wfatal-errors')
 
 # extra=1, even more warnings
 if int(ARGUMENTS.get('extra', 0)):
