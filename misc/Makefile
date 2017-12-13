@@ -1,4 +1,4 @@
-.PHONY: all clean run test testbuild
+.PHONY: all extra testbuild test clang clangextra clangdebug debug run clean
 
 clang ?= 0
 extra ?= 0
@@ -15,7 +15,7 @@ extra:
 	  || scons --file=../misc/SConstruct -Q testbuild extra=1
 
 testbuild:
-	@scons --file=../misc/SConstruct -Q extra=1 testbuild clang=${clang} extra=${extra} debug=${debug}
+	@scons --file=../misc/SConstruct -Q testbuild clang=${clang} extra=${extra} debug=${debug}
 
 test:
 	@scons --file=../misc/SConstruct -Q test clang=${clang} extra=${extra} debug=${debug}
