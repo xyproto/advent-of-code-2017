@@ -4,6 +4,7 @@
 
 using std::optional;
 using std::string;
+using std::nullopt;
 
 using namespace std::literals;
 
@@ -23,6 +24,30 @@ constexpr T clamp(U i, T length) {
         i -= signed_length;
     }
     return static_cast<T>(i);
+}
+
+// convert from 0,1,2,3,4 to for instance 6,7,8,9,0
+// offset is the offset of the new range
+// i is the input value (a counter from 0 and up, for example)
+// length is the total length of the range
+// exclude is an output value that should not be returned, but make the function return nullopt
+template<typename T>
+optional<T> transform(const T i, const int offset, const T length, const T exclude) {
+    auto v = clamp(i + offset, length);
+    if (v == exclude) {
+        return nullopt;
+    }
+    return optional<T> {v};
+}
+
+// Same as the transform above, but the offset is used as the value to exclude
+template<typename T>
+optional<T> transform(const T i, const int offset, const T length) {
+    auto v = clamp(i + offset, length);
+    if (v == static_cast<T>(offset)) {
+        return nullopt;
+    }
+    return optional<T> {v};
 }
 
 // Return the optional value, or the notFoundValue if not

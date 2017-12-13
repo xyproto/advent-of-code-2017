@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <string>
+#include <cmath>
 #include "util.h"
 
 using std::vector;
@@ -14,6 +15,7 @@ using std::pair;
 using std::nullopt;
 using std::stringstream;
 using std::endl;
+using std::cout;
 
 using index_t = size_t;
 
@@ -38,4 +40,16 @@ public:
 
     // Return the position with the largest value or 0 if not found
     index_t must_largest_position();
+
+    // Redistribute the largest one on the others
+    void redistribute();
+
+    // Return the contents
+    vector<int> get();
+
+    // Return the number of iterations of redistribution until the result has been seen before
+    optional<unsigned> redistribution_number(unsigned max_iterations);
+
+    // Same as redistribution_number, but without any safeguards (!)
+    unsigned rn();
 };
