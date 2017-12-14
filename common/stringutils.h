@@ -219,3 +219,15 @@ const vector<string> readlines(const string filename) {
     }
     return lines;
 }
+
+// Check if a vector<string> has the given string
+bool has(vector<string> words, string word) {
+    for (const auto &w: words) {
+        if (w == word) {
+            return true;
+        }
+    }
+    return false;
+}
+
+

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <sstream>
 #include "test.h"
@@ -21,19 +20,13 @@ const string word(const string line) {
     return trim(split(line, "->").first);
 }
 
-bool has(vector<string> words, string word) {
-    for (const auto &w: words) {
-        if (w == word) {
-            return true;
-        }
-    }
-    return false;
-}
-
+// Find the top words in the tree, not by building the actual tree,
+// but by keeping track of which words are pointing to other words,
+// but are not being pointed to by any other word.
 const vector<string> top_words(vector<string> lines) {
     vector<string> pointed_to {}; // words that have been pointed too
     vector<string> pointing {}; // words that are pointing to other words
-    vector<string> all_words {};
+    vector<string> all_words {}; // all the words
     for (const auto &line: lines) {
         const auto word = words(line)[0];
         all_words.push_back(word);
