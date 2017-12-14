@@ -1,13 +1,19 @@
-.PHONY: all extra testbuild test clang clangextra clangdebug debug run clean
+.PHONY: all opt extra testbuild test clang clangextra clangdebug debug run clean
 
 clang ?= 0
 extra ?= 0
 debug ?= 0
+opt ?= 0
 
 all:
 	@test -f main.cpp \
-	  && scons --file=../misc/SConstruct -Q clang=${clang} extra=${extra} debug=${debug} \
-	  || scons --file=../misc/SConstruct -Q testbuild clang=${clang} extra=${extra} debug=${debug}
+	  && scons --file=../misc/SConstruct -Q clang=${clang} extra=${extra} debug=${debug} opt=${opt} \
+	  || scons --file=../misc/SConstruct -Q testbuild clang=${clang} extra=${extra} debug=${debug} opt=${opt}
+
+opt:
+	@test -f main.cpp \
+	  && scons --file=../misc/SConstruct -Q opt=1 \
+	  || scons --file=../misc/SConstruct -Q opt=1
 
 extra:
 	@test -f main.cpp \
@@ -15,10 +21,10 @@ extra:
 	  || scons --file=../misc/SConstruct -Q testbuild extra=1
 
 testbuild:
-	@scons --file=../misc/SConstruct -Q testbuild clang=${clang} extra=${extra} debug=${debug}
+	@scons --file=../misc/SConstruct -Q testbuild clang=${clang} extra=${extra} debug=${debug} opt=${opt}
 
 test:
-	@scons --file=../misc/SConstruct -Q test clang=${clang} extra=${extra} debug=${debug}
+	@scons --file=../misc/SConstruct -Q test clang=${clang} extra=${extra} debug=${debug} opt=${opt}
 
 clang:
 	@test -f main.cpp \
@@ -41,7 +47,7 @@ debug:
 	  || scons --file=../misc/SConstruct -Q testbuild debug=1
 
 run:
-	@scons --file=../misc/SConstruct -Q run clang=${clang} extra=${extra} debug=${debug}
+	@scons --file=../misc/SConstruct -Q run clang=${clang} extra=${extra} debug=${debug} opt=${opt}
 
 clean:
 	@scons --file=../misc/SConstruct -Q clean

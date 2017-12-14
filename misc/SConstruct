@@ -71,6 +71,10 @@ if int(ARGUMENTS.get('debug', 0)):
 else:
   env.Append(CXXFLAGS=' -O2')
 
+# opt=1
+if int(ARGUMENTS.get('opt', 0)):
+  env.Append(CXXFLAGS=' -O3')
+
 # clang=1
 if int(ARGUMENTS.get('clang', 0)):
   env.Replace(CXX='clang++')
