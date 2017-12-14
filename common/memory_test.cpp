@@ -40,7 +40,7 @@ int main() {
     equal(memory.must_redistribution_number(), static_cast<unsigned>(5));
 
     memory = Memory(vector<int> {2, 4, 1, 2});
-    equal(memory.must_redistribution_number_full(), static_cast<unsigned>(4));
+    equal(memory.redistributions_cached(), static_cast<unsigned>(4));
     equal(memory.re_encounter_iterations(), static_cast<unsigned>(4));
 
     return 0;

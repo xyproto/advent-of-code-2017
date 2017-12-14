@@ -152,30 +152,9 @@ size_t Memory::hash() {
   return seed;
 }
 
-// DEPRECATED
-// Find the number of loops until the start position is seen again
-unsigned Memory::must_redistribution_number_full() {
-    //cout << "fst " << this->str() << endl;
-    auto start_state = _memory;
-    unsigned counter = 0;
-    while (true) {
-        counter++;
-        auto prev_state = _memory;
-        // Run the redistribution algorithm
-        this->redistribute();
-        //cout << "add " << this->str() << endl;
-        if (_memory == start_state) {
-            //cout << "fin " << this->str() << endl;
-            // return the number of iterations until the situation is the same as the first one
-            return counter;
-        }
-    }
-}
-
-// DEPRECATED
 // Find the number of loops until the start position is seen again
 // This one is much faster than the non-cached version above, at least for the first 100000 iterations
-unsigned Memory::must_redistribution_number_full_cached() {
+unsigned Memory::redistributions_cached() {
     //cout << "fst " << this->str() << endl;
     auto start_state = _memory;
     unordered_map<size_t, vector<int>> memo; // map of state.hash() -> next state
@@ -208,12 +187,10 @@ unsigned Memory::must_redistribution_number_full_cached() {
 // Counts the actual redistributions, not just a redistribution-session!
 unsigned Memory::re_encounter_iterations() {
     auto start_state = _memory;
-    vector<unsigned> seen {}; // hashes
+    vector<unsigned> seen {static_cast<unsigned>(this->hash())}; // hashes
 
     // First find the first repeated state
     while (true) {
-        // TODO: Only push_back if the has isn't already in seen
-        seen.push_back(this->hash());
         this->redistribute();
         cout << "add " << this->str() << endl;
         unsigned redistributed_hash = this->hash();
@@ -224,10 +201,13 @@ unsigned Memory::re_encounter_iterations() {
                 goto OUT;
             }
         }
+        // Store the unseen hash
+        seen.push_back(static_cast<unsigned>(this->hash()));
     }
 OUT:
 
-    seen = vector<unsigned>{}; // clear hashes
+    // clear hashes
+    seen = vector<unsigned> {static_cast<unsigned>(this->hash())}; // hashes
 
     // Use this as the new start state
     start_state = _memory;
@@ -236,8 +216,6 @@ OUT:
     unsigned counter = 0;
     while (true) {
         counter++;
-        // TODO: Only push_back if the has isn't already in seen
-        seen.push_back(this->hash());
         this->redistribute();
         cout << "add " << this->str() << endl;
         unsigned redistributed_hash = this->hash();
@@ -248,6 +226,8 @@ OUT:
                 return counter;
             }
         }
+        // Store the unseen hash
+        seen.push_back(static_cast<unsigned>(this->hash()));
     }
 }
 

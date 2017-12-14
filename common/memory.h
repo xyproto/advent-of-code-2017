@@ -58,13 +58,9 @@ public:
     // Same as redistribution_number, but without any safeguards (!)
     unsigned must_redistribution_number();
 
-    // DEPRECATED
-    // Find the number of loops until the start position is seen again
-    unsigned must_redistribution_number_full();
+    // Find the number of redistributions, not only redistribution cycles
+    unsigned redistributions_cached();
 
-    // DEPRECATED
-    // Memoized version
-    unsigned must_redistribution_number_full_cached();
-
+    // Find the number of iterations between the first re-encounter and the next re-encounter
     unsigned re_encounter_iterations();
 };
