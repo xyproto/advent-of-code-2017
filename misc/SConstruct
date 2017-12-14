@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import commands
 import glob
 import multiprocessing
@@ -8,7 +10,12 @@ import os.path
 import subprocess
 import sys
 
-test_exes = [os.path.splitext(fn)[0] for fn in glob.glob("*_test.cpp")]
+INCLUDE_PATH = "../include"
+COMMON_PATH = "../common"
+TEST_SUFFIX = "_test.cpp"
+MAIN_SOURCE = "main.cpp"
+
+test_exes = [os.path.splitext(fn)[0] for fn in glob.glob("*" + TEST_SUFFIX)]
 
 # Custom command line targets
 if 'clean' in COMMAND_LINE_TARGETS: # Clean built executables and object files
@@ -87,10 +94,39 @@ if int(ARGUMENTS.get('extra', 0)):
   env.Append(CXXFLAGS=' -Wextra')
 
 # Find all .cpp files that are not main.cpp and not *_test.cpp
-dep_src = [fn for fn in glob.glob("*.cpp") if not fn.endswith("_test.cpp") and fn != "main.cpp"]
+dep_src = [fn for fn in glob.glob("*.cpp") if not fn.endswith(TEST_SUFFIX) and fn != MAIN_SOURCE]
+
+# add path to the include files
+env.Append(CPPPATH=INCLUDE_PATH)
+
+# Find all included header files in ../include, then check if there are corresponding .cpp files in ../common and add them to dep_src, if there is a main source file
+if glob.glob(MAIN_SOURCE):
+  includes = []
+  has_new_include = True
+  examined = []
+  while has_new_include:
+    has_new_include = False
+    for filename in dep_src + [MAIN_SOURCE] + [os.path.join(INCLUDE_PATH, x) for x in includes]:
+      if filename in examined:
+        continue
+      examined.append(filename)
+      if glob.glob(filename):
+        print("FILENAME", filename)
+        new_includes = [line.split("\"")[1] for line in open(filename).read().split("\n")[:-1] if line.strip().startswith("#include \"")]
+      else:
+        continue
+      for new_include in new_includes:
+        if new_include not in includes:
+          has_new_include = True
+          includes.append(new_include)
+    for include in includes:
+      source_filename = os.path.join(COMMON_PATH, include.rsplit(".", 1)[0] + ".cpp")
+      if glob.glob(source_filename):
+        if source_filename not in dep_src:
+          dep_src.append(source_filename)
 
 # Build main executable
-main = env.Program("main", ["main.cpp"] + dep_src)
+main = env.Program("main", [MAIN_SOURCE] + dep_src)
 
 # Set up non-default targets for all the test executables (based on *_test.cpp)
 for exe in test_exes:

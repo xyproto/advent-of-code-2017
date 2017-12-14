@@ -1,1 +1,0 @@
-../common/long_string.inc
