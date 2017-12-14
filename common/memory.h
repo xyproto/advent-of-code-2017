@@ -66,5 +66,5 @@ public:
     // Memoized version
     unsigned must_redistribution_number_full_cached();
 
-    unsigned must_redistribution_cycles();
+    unsigned re_encounter_iterations();
 };

@@ -206,23 +206,46 @@ unsigned Memory::must_redistribution_number_full_cached() {
 // Find how many times the largest value can be redistributed without the situation repeating itself
 // Assumes it will work out without ending up in an endless loop (!) or consuming all available memory (!)
 // Counts the actual redistributions, not just a redistribution-session!
-unsigned Memory::must_redistribution_cycles() {
-    cout << "fst " << this->str() << endl;
+unsigned Memory::re_encounter_iterations() {
     auto start_state = _memory;
     vector<unsigned> seen {}; // hashes
-    unsigned cycles = 0;
+
+    // First find the first repeated state
     while (true) {
+        // TODO: Only push_back if the has isn't already in seen
         seen.push_back(this->hash());
-        cycles += this->redistribute();
+        this->redistribute();
         cout << "add " << this->str() << endl;
         unsigned redistributed_hash = this->hash();
         for (const auto &seen_hash: seen) {
             if (redistributed_hash == seen_hash) {
-                cout << "fin " << this->str() << endl;
-                // set the state back to what it was
-                _memory = start_state;
-                // return the number of iterations until a situation repeats itself
-                return cycles;
+                cout << "!!! " << this->str() << endl; // starting point for counting loops
+                // Break out of both loops and keep this state in _memory
+                goto OUT;
+            }
+        }
+    }
+OUT:
+
+    seen = vector<unsigned>{}; // clear hashes
+
+    // Use this as the new start state
+    start_state = _memory;
+
+    // Then count the iterations until the repeated state happens again
+    unsigned counter = 0;
+    while (true) {
+        counter++;
+        // TODO: Only push_back if the has isn't already in seen
+        seen.push_back(this->hash());
+        this->redistribute();
+        cout << "add " << this->str() << endl;
+        unsigned redistributed_hash = this->hash();
+        for (const auto &seen_hash: seen) {
+            if (redistributed_hash == seen_hash) {
+                cout << "/!! " << this->str() << endl; // end point for counting loops
+                cout << "cnt " << counter << endl;
+                return counter;
             }
         }
     }
