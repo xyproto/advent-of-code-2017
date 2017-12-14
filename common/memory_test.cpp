@@ -37,7 +37,10 @@ int main() {
 
     memory = Memory(start);
     equal(must(memory.redistribution_number(100)), 5);
-    equal(memory.rn(), static_cast<unsigned>(5));
+    equal(memory.must_redistribution_number(), static_cast<unsigned>(5));
+
+    memory = Memory(vector<int> {2, 4, 1, 2});
+    equal(memory.must_redistribution_number_full(), static_cast<unsigned>(4));
 
     return 0;
 }
