@@ -140,6 +140,14 @@ unsigned Memory::must_redistribution_number() {
     }
 }
 
+size_t Memory::hash() {
+  size_t seed = _memory.size();
+  for(const auto &i: _memory) {
+    seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+  }
+  return seed;
+}
+
 // Find the number of loops until the start position is seen again
 unsigned Memory::must_redistribution_number_full() {
     //cout << "fst " << this->str() << endl;
@@ -147,7 +155,39 @@ unsigned Memory::must_redistribution_number_full() {
     unsigned counter = 0;
     while (true) {
         counter++;
+        auto prev_state = _memory;
+        // Run the redistribution algorithm
         this->redistribute();
+        //cout << "add " << this->str() << endl;
+        if (_memory == start_state) {
+            //cout << "fin " << this->str() << endl;
+            // return the number of iterations until the situation is the same as the first one
+            return counter;
+        }
+    }
+}
+
+// Find the number of loops until the start position is seen again
+// This one is much faster than the non-cached version above, at least for the first 100000 iterations
+unsigned Memory::must_redistribution_number_full_cached() {
+    //cout << "fst " << this->str() << endl;
+    auto start_state = _memory;
+    unordered_map<size_t, vector<int>> memo; // map of state.hash() -> next state
+    unsigned counter = 0;
+    while (true) {
+        counter++;
+        auto prev_state = _memory;
+        auto search = memo.find(this->hash());
+        if (search != memo.end()) {
+            //cout << "cache hit" << endl;
+            // Found a previous result, use that
+            _memory = search->second;
+        } else {
+            // Run the redistribution algorithm
+            this->redistribute();
+            // Store the new result
+            memo[Memory(prev_state).hash()] = _memory;
+        }
         //cout << "add " << this->str() << endl;
         if (_memory == start_state) {
             //cout << "fin " << this->str() << endl;

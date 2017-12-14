@@ -1,11 +1,12 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <optional>
-#include <string>
 #include <cmath>
+#include <iostream>
+#include <optional>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 #include "util.h"
 
 using std::vector;
@@ -16,6 +17,7 @@ using std::nullopt;
 using std::stringstream;
 using std::endl;
 using std::cout;
+using std::unordered_map;
 
 using index_t = size_t;
 
@@ -47,6 +49,9 @@ public:
     // Return the contents
     vector<int> get();
 
+    // Return a size_t representing the vector<int>
+    size_t hash();
+
     // Return the number of iterations of redistribution until the result has been seen before
     optional<unsigned> redistribution_number(unsigned max_iterations);
 
@@ -55,4 +60,7 @@ public:
 
     // Find the number of loops until the start position is seen again
     unsigned must_redistribution_number_full();
+
+    // Memoized version
+    unsigned must_redistribution_number_full_cached();
 };
