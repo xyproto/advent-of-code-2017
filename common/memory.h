@@ -43,8 +43,8 @@ public:
     // Return the position with the largest value or 0 if not found
     index_t must_largest_position();
 
-    // Redistribute the largest one on the others
-    void redistribute();
+    // Redistribute the largest one on the others, return the number of redistributions
+    unsigned redistribute();
 
     // Return the contents
     vector<int> get();
@@ -58,9 +58,13 @@ public:
     // Same as redistribution_number, but without any safeguards (!)
     unsigned must_redistribution_number();
 
+    // DEPRECATED
     // Find the number of loops until the start position is seen again
     unsigned must_redistribution_number_full();
 
+    // DEPRECATED
     // Memoized version
     unsigned must_redistribution_number_full_cached();
+
+    unsigned must_redistribution_cycles();
 };

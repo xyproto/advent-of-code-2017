@@ -53,7 +53,8 @@ string Memory::str() {
     return s.str();
 }
 
-void Memory::redistribute() {
+unsigned Memory::redistribute() {
+    auto counter = 0;
     auto largest_item = this->largest();
     if (largest_item) {
         // it's a *pair
@@ -84,10 +85,13 @@ void Memory::redistribute() {
             // Move a share from the pocket to a memory position
             pocket -= share;
             _memory[next_pos] += share;
+            counter++;
         }
         // Move the remaining money to the position of the previously largest value
         _memory[largest_pos] += pocket;
+        //counter++;
     }
+    return counter;
 }
 
 vector<int> Memory::get() {
@@ -148,6 +152,7 @@ size_t Memory::hash() {
   return seed;
 }
 
+// DEPRECATED
 // Find the number of loops until the start position is seen again
 unsigned Memory::must_redistribution_number_full() {
     //cout << "fst " << this->str() << endl;
@@ -167,6 +172,7 @@ unsigned Memory::must_redistribution_number_full() {
     }
 }
 
+// DEPRECATED
 // Find the number of loops until the start position is seen again
 // This one is much faster than the non-cached version above, at least for the first 100000 iterations
 unsigned Memory::must_redistribution_number_full_cached() {
@@ -193,6 +199,31 @@ unsigned Memory::must_redistribution_number_full_cached() {
             //cout << "fin " << this->str() << endl;
             // return the number of iterations until the situation is the same as the first one
             return counter;
+        }
+    }
+}
+
+// Find how many times the largest value can be redistributed without the situation repeating itself
+// Assumes it will work out without ending up in an endless loop (!) or consuming all available memory (!)
+// Counts the actual redistributions, not just a redistribution-session!
+unsigned Memory::must_redistribution_cycles() {
+    cout << "fst " << this->str() << endl;
+    auto start_state = _memory;
+    vector<unsigned> seen {}; // hashes
+    unsigned cycles = 0;
+    while (true) {
+        seen.push_back(this->hash());
+        cycles += this->redistribute();
+        cout << "add " << this->str() << endl;
+        unsigned redistributed_hash = this->hash();
+        for (const auto &seen_hash: seen) {
+            if (redistributed_hash == seen_hash) {
+                cout << "fin " << this->str() << endl;
+                // set the state back to what it was
+                _memory = start_state;
+                // return the number of iterations until a situation repeats itself
+                return cycles;
+            }
         }
     }
 }
