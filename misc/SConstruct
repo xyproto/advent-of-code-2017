@@ -111,7 +111,9 @@ if glob.glob(MAIN_SOURCE):
         continue
       examined.append(filename)
       if glob.glob(filename):
-        print("FILENAME", filename)
+        #if COMMON_PATH in filename:
+        #  print("using " + filename)
+        #print("FILENAME", filename)
         new_includes = [line.split("\"")[1] for line in open(filename).read().split("\n")[:-1] if line.strip().startswith("#include \"")]
       else:
         continue
