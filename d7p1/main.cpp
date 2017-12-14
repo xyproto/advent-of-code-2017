@@ -1,11 +1,7 @@
-#include <vector>
-#include <sstream>
 #include "test.h"
 #include "util.h"
 #include "stringutils.h"
 #include "memory.h"
-
-using std::cout;
 
 //
 // If a word is pointing to others, but nobody is pointing to that word, it's the top word
