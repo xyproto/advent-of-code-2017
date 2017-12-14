@@ -1,53 +1,13 @@
 #include <iostream>
 #include <vector>
-#include <fstream>
-#include <iterator>
-#include <sstream>
+#include "stringutils.h"
 #include "test.h"
 
 using std::vector;
 using std::string;
-using std::ifstream;
-using std::istringstream;
 
-using words_t = vector<string>;
-
-// Split a string into a wordlist
-words_t split(string line, const char sep) {
-    words_t words;
-    auto word = ""s;
-    for (const char &letter : line) {
-        if (letter == sep) {
-            words.push_back(word);
-            word = ""s;
-            continue;
-        }
-        word += letter;
-    }
-    if (word.length() > 0) {
-        words.push_back(word);
-    }
-    return words;
-}
-
-// Split a string into a words
-words_t split(string line) {
-    return split(line, ' ');
-}
-
-// Count the number of times a word appears in a list of words
-int count(words_t words, string word) {
-    auto counter = 0;
-    for (const string &x : words) {
-        if (x == word) {
-            counter++;
-        }
-    }
-    return counter;
-}
-
-bool valid(string passphrase) {
-    auto words = split(passphrase);
+const bool valid(const string passphrase) {
+    const auto words = splitc(passphrase);
     for (const string &word : words) {
         if (count(words, word) > 1) {
             return false;
@@ -56,16 +16,11 @@ bool valid(string passphrase) {
     return true;
 }
 
-int valid_passphrases(string fn) {
-    auto counter = 0;
-    string line;
-    ifstream infile {fn, ifstream::in};
-    if (infile.is_open()) {
-        while (getline(infile, line)) {
-            istringstream is {line};
-            if (valid(is.str())) {
-                counter++;
-            }
+const unsigned valid_passphrases(const string fn) {
+    unsigned counter = 0;
+    for (const auto &line: readlines(fn)) {
+        if (valid(line)) {
+            counter++;
         }
     }
     return counter;

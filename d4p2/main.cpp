@@ -1,39 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <iterator>
-#include <sstream>
 #include "test.h"
-
-using std::vector;
-using std::string;
-using std::ifstream;
-using std::istringstream;
+#include "stringutils.h"
 
 using words_t = vector<string>;
-
-// Split a string into a wordlist
-words_t split(const string line, const char sep) {
-    words_t words;
-    auto word = ""s;
-    for (const char &letter : line) {
-        if (letter == sep) {
-            words.push_back(word);
-            word = ""s;
-            continue;
-        }
-        word += letter;
-    }
-    if (word.length() > 0) {
-        words.push_back(word);
-    }
-    return words;
-}
-
-// Split a string into a words
-words_t split(const string line) {
-    return split(line, ' ');
-}
 
 // Remove a letter from a string
 // The letter can be anywhere in the string, but only the first match is removed
@@ -50,17 +18,6 @@ string remove_letter(const string a, const char b_letter) {
         new_string += a_letter;
     }
     return new_string;
-}
-
-// Count the number of a given letter in a given string
-int count(const string a, const char l) {
-    int counter = 0;
-    for (const char &x : a) {
-        if (x == l) {
-            counter++;
-        }
-    }
-    return counter;
 }
 
 // Check if two words are anagrams of each other (equal letter count)
@@ -88,7 +45,7 @@ int anagram_count(const words_t words, const string word) {
 
 // Check if a given passphrase does not contain anagrams
 bool anagram_valid(const string passphrase) {
-    auto words = split(passphrase);
+    auto words = splitc(passphrase);
     for (const string &word : words) {
         if (anagram_count(words, word) > 1) {
             return false;
@@ -97,17 +54,12 @@ bool anagram_valid(const string passphrase) {
     return true;
 }
 
-// Count the valid passphrases, wrt anagrams, in the given text file
-int anagram_valid_passphrases(const string fn) {
-    auto counter = 0;
-    string line;
-    ifstream infile {fn, ifstream::in};
-    if (infile.is_open()) {
-        while (getline(infile, line)) {
-            istringstream is {line};
-            if (anagram_valid(is.str())) {
-                counter++;
-            }
+// Count the valid passphrases, wrt. anagrams, in the given text file
+const unsigned anagram_valid_passphrases(const string fn) {
+    unsigned counter = 0;
+    for (const auto &line: readlines(fn)) {
+        if (anagram_valid(line)) {
+            counter++;
         }
     }
     return counter;
@@ -126,16 +78,16 @@ int main() {
     equal(anagram_valid("abcde fghij"s), true);
     equal(anagram_valid("abcde xyz ecdab"s), false);
 
-    equal(anagram_count(split("oiii ioii iioi iiio"s), "oiii"s), 4);
+    equal(anagram_count(splitc("oiii ioii iioi iiio"s), "oiii"s), 4);
 
     cout << "so far so good" << endl;
 
-    equal(anagram_count(split("a ab abc abd abf abj"s), "a"s), 1);
-    equal(anagram_count(split("a ab abc abd abf abj"s), "ab"s), 1);
-    equal(anagram_count(split("a ab abc abd abf abj"s), "abc"s), 1);
-    equal(anagram_count(split("a ab abc abd abf abj"s), "abd"s), 1);
-    equal(anagram_count(split("a ab abc abd abf abj"s), "abf"s), 1);
-    equal(anagram_count(split("a ab abc abd abf abj"s), "abj"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "a"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "ab"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "abc"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "abd"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "abf"s), 1);
+    equal(anagram_count(splitc("a ab abc abd abf abj"s), "abj"s), 1);
 
     cout << "ok" << endl;
 
