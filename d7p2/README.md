@@ -1,0 +1,3 @@
+Day 7, part 2
+
+WORK IN PROGRESS
