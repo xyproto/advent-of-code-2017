@@ -4,13 +4,13 @@ Solutions in C++17
 
 ## Disclaimer
 
-C, Assembly, Go and Python are familiar to me, but I am a beginner at C++17 and "modern" C++ in general.
+I am a beginner at C++17 and "modern" C++ in general.
 
 This is a learning experience for me.
 
 ## Requirements
 
-* g++ (GCC) 7 or later
+* g++ (GCC) 7 or later (or clang for `make clang`)
 * scons
 * make
 
@@ -25,10 +25,6 @@ This is a learning experience for me.
 ## Cleaning
 
     make clean
-
-## Clang
-
-
 
 ## General info
 
