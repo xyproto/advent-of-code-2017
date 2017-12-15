@@ -13,30 +13,33 @@ using std::optional;
 using std::nullopt;
 using std::stringstream;
 
+
+// TODO: initializer lists, lambdas, pointer types, when to use inline, when to use const, when to use static, lambdas in initializer lists, for_each in initalizer lists?
+
 class Tree {
 
 private:
     string _name;              // Each node can have a name, which will not be changed after being set
     unsigned _weight;          // Each node can have a weight, that may be changed after being set
-    vector<Tree> _children;    // Each Tree node can have 0 or more children, which may be trees
+    vector<Tree*> _children;   // Each Tree node can have 0 or more children, which may be trees
 
 public:
-    // Create a new node, together with a weight and the names of the children
-    Tree(string name, unsigned weight = 0, vector<string> childnames = {});
+    // Create a new node, together with an optional
+    Tree(string name, unsigned weight = 0);
 
     // Breadth first search for a name
-    optional<Tree> BFirstSearch(string& name);
+    optional<Tree*> BFirstSearch(string& name);
 
     // Depth first search for a name
-    optional<Tree> DFirstSearch(string& name);
+    optional<Tree*> DFirstSearch(string& name);
 
     // Add a new child
-    inline void AddChild(Tree child);
-
-    // Add a new child and return the new Tree node
-    Tree AddChild(string name);
+    void AddChild(Tree* child);
 
     string str(unsigned indentation_level = 0);
 
-    inline string Name();
+    string Name();
+
+    unsigned Weight();
+
 };
