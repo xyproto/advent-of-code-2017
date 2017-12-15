@@ -4,10 +4,9 @@
 int main() {
     cout << "hi" << endl;
 
-    auto root_node = Tree("root node"s);
-    auto root = &root_node;
-    root->AddChild("Bob"s);
-    auto alice = root->AddChild("Alice"s);
+    auto root = Tree("root node"s);
+    root.AddChild("Bob"s);
+    auto alice = root.AddChild("Alice"s);
     alice.AddChild("Roger"s);
     alice.AddChild("Malfoy"s);
     alice.AddChild("Gregory"s);
@@ -15,6 +14,6 @@ int main() {
     alice.AddChild("Lucious"s);
     alice.AddChild("Max"s);
 
-    cout << root_node.str() << endl;
+    cout << root.str() << endl;
 
 }
