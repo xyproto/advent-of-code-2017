@@ -10,20 +10,19 @@ using std::string_view;
 using std::vector;
 using std::string;
 using std::optional;
+using std::nullopt;
+using std::stringstream;
 
 class Tree {
 
 private:
-    const string _name;        // Each node can have a name
-    unsigned _weight;          // Each node can have a weight
+    string_view _name;         // Each node can have a name, which will not be changed after being set
+    unsigned _weight;          // Each node can have a weight, that may be changed after being set
     vector<Tree*> _children;   // Each Tree node can have 0 or more children, which are just pointers to other Tree nodes
 
 public:
-    // Create a new freestanding Tree node (constructor)
-    Tree(const string_view& name, const unsigned& weight = 0) : _name{name}, _weight{weight}, _children{} {};
-
     // Create a new node, together with a weight and the names of the children
-    Tree(const string_view& name, const unsigned& weight = 0, const vector<string_view> childnames = vector<string_view> {});
+    Tree(const string_view& name, const unsigned& weight = 0, const vector<string_view> childnames = {});
 
     // Depth first search for a name
     optional<Tree*> DFirstSearch(const string_view& name);
@@ -31,8 +30,16 @@ public:
     // Breadth first search for a name
     optional<Tree*> BFirstSearch(const string_view& name);
 
-    // Add a new child and return the new Tree node
-    Tree* AddChild(const string_view& name, const unsigned& weight = 0);
+    // Add a new child
+    inline void AddChild(Tree* child);
 
-    const string str();
+    // Add a new child and return the new Tree node
+    Tree AddChild(const string_view& name);
+
+    const string str(unsigned indentation_level = 0);
+
+    inline const string_view& Name();
 };
+
+
+
