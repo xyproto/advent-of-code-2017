@@ -1,12 +1,8 @@
 #include <algorithm>
-#include <cctype>
-#include <cstdlib>
 #include <fstream>
-#include <iterator>
-#include <locale>
 #include <sstream>
-#include <string>
 #include <vector>
+#include <string>
 
 using std::find_if;
 using std::ifstream;
@@ -259,7 +255,6 @@ inline const string between(const string line, const char sep1, const char sep2)
 
 // convert a string to unsigned long, without checking anything
 inline const unsigned long to_unsigned_long(const string digits) {
-    return strtoul(digits.c_str(), nullptr, 0);
+    return stoul(digits);
 }
-
 
