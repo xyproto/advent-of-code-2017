@@ -1,7 +1,7 @@
 #include "test.h"
 #include "util.h"
 #include "stringutils.h"
-#include "memory.h"
+#include "tree.h"
 
 // Return the child-names of a node, read from a line of text
 inline const vector<string> children(const string line) {
@@ -18,50 +18,27 @@ inline const unsigned long weight(const string line) {
     return to_unsigned_long(between(line, '(', ')'));
 }
 
-// Find the top words in the tree, not by building the actual tree,
-// but by keeping track of which words are pointing to other words,
-// but are not being pointed to by any other word.
-const vector<string> top_words(vector<string> lines) {
-    vector<string> pointed_to {}; // words that have been pointed too
-    vector<string> pointing {}; // words that are pointing to other words
-    vector<string> all_words {}; // all the words
-    string name;
-    vector<string> other_words;
+Tree* build_tree(vector<string> lines) {
+    vector<Tree*> all_nodes {}; // all nodes
     for (const auto &line: lines) {
-        name = words(line)[0];
-        all_words.push_back(name);
-        other_words = children(line);
+        // Create a node
+        string name = words(line)[0];
+        auto node = Tree(name);
+        all_nodes.push_back(&node);
+
         cout << name << " weight " << weight(line) << endl;
-        //cout << word << " => ";
-        if (other_words.size() > 0) {
-            // This word is pointing at other words
-            pointing.push_back(name);
-        }
-        for (const auto &other_word: other_words) {
-            //cout << other_word << "; ";
-            // Add the word to the list of words that has been pointed too
-            pointed_to.push_back(other_word);
-        }
-        //cout << endl;
+
+        // TODO: for each "other" word, find that node in all_nodes and push this node as a child.
+        auto other_words = children(line);
     }
-    // Top words are not pointed to, but pointing
-    vector<string> top_words {};
-    for (const auto &word: all_words) {
-        if (has(pointing, word) && !has(pointed_to, word)) {
-            top_words.push_back(word);
-        }
-    }
-    return top_words;
+    // TODO: Return the root node
+    return nullptr;
 }
 
 int main() {
     cout << "--- input.txt ---" << endl;
-    for (const auto &tw: top_words(readlines("input.txt"))) {
-        cout << "top word: " << tw << endl;
-    }
+    build_tree(readlines("input.txt"));
 
     cout << "--- input2.txt ---" << endl;
-    for (const auto &tw: top_words(readlines("input2.txt"))) {
-        cout << "top word: " << tw << endl;
-    }
+    build_tree(readlines("input2.txt"));
 }
