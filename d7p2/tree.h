@@ -13,33 +13,33 @@ using std::optional;
 using std::nullopt;
 using std::stringstream;
 
-
-// TODO: initializer lists, lambdas, pointer types, when to use inline, when to use const, when to use static, lambdas in initializer lists, for_each in initalizer lists?
+class Node {
+private:
+    string _name;
+    unsigned _weight;
+    vector<Node*> _children; // children
+public:
+    Node(const string & name, unsigned weight = 0);
+    string Name();
+    void SetName(const string & name);
+    unsigned Weight();
+    void SetWeight(unsigned weight);
+    vector<Node*> Children();
+    void AddChild(Node* node);
+    string str();
+    optional<Node*> BFind(const string & name);
+    optional<Node*> DFind(const string & name);
+};
 
 class Tree {
-
 private:
-    string _name;              // Each node can have a name, which will not be changed after being set
-    unsigned _weight;          // Each node can have a weight, that may be changed after being set
-    vector<Tree*> _children;   // Each Tree node can have 0 or more children, which may be trees
-
+    vector<Node> _nodes;
+    Node* _root_node;
 public:
-    // Create a new node, together with an optional
-    Tree(string name, unsigned weight = 0);
-
-    // Breadth first search for a name
-    optional<Tree*> BFirstSearch(string& name);
-
-    // Depth first search for a name
-    optional<Tree*> DFirstSearch(string& name);
-
-    // Add a new child
-    void AddChild(Tree* child);
-
-    string str(unsigned indentation_level = 0);
-
-    string Name();
-
-    unsigned Weight();
-
+    Tree();
+    void Add(Node node);
+    string str();
+    void SetRoot(Node* node);
+    Node* Root();
+    optional<Node*> Find(const string & name);
 };

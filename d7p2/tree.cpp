@@ -1,31 +1,61 @@
 #include "tree.h"
 
-// Create a new node, together with a weight and the names of the children (constructor #2)
-Tree::Tree(string name, unsigned weight) {
+Node::Node(const string & name, unsigned weight) {
     _name = name;
     _weight = weight;
-    _children = {};
+    _children = vector<Node*> {};
 }
 
-// Breadth first search for a name
-optional<Tree*> Tree::BFirstSearch(string& name) {
+string Node::Name() {
+    return _name;
+}
+
+void Node::SetName(const string & name) {
+    _name = name;
+}
+
+unsigned Node::Weight() {
+    return _weight;
+}
+
+void Node::SetWeight(unsigned weight) {
+    _weight = weight;
+}
+
+vector<Node*> Node::Children() {
+    return _children;
+}
+
+void Node::AddChild(Node* node) {
+    _children.push_back(node);
+}
+
+string Node::str() {
+    stringstream s;
+    s << _name << " (weight " << _weight << "), " << _children.size() << " children";
+    return s.str();
+}
+
+// Breadth first search for a name,
+optional<Node*> Node::BFind(const string & name) {
     if (_name == name) {
         // Found it! XD
-        return optional<Tree*> {this};
+        return optional<Node*> {this};
     }
     // Search the immediate children (but not in depth)
-    for (auto& child: _children) {
-        if (child->Name() == name) {
+    for (const auto & child_node: _children) {
+        if (child_node->Name() == name) {
             // Found it!
-            return optional<Tree*> {child};
+            return optional<Node*> {child_node};
         }
     }
     // Did not find it among the children, start searching the childrens' children
-    for (auto& child: _children) {
-        auto maybeTreeNode = child->BFirstSearch(name);
-        if (maybeTreeNode) {
+    for (const auto & child_node: _children) {
+        const auto found_node = child_node->BFind(name);
+        if (found_node) {
             // Found it!
-            return *maybeTreeNode; // is a Tree after picking out the value with *
+            Node* subchild = *found_node;
+            return subchild;
         }
     }
     // Found nothing :(
@@ -33,21 +63,22 @@ optional<Tree*> Tree::BFirstSearch(string& name) {
 }
 
 // Depth first search for a name
-optional<Tree*> Tree::DFirstSearch(string& name) {
+optional<Node*> Node::DFind(const string& name) {
     if (_name == name) {
         // Found it! XD
-        return optional<Tree*> {this};
+        return optional<Node*> {this};
     }
-    for (auto& child: _children) {
-        if (child->Name() == name) {
+    for (const auto & child_node: _children) {
+        if (child_node->Name() == name) {
             // Found it!
-            return optional<Tree*> {child};
+            return optional<Node*> {child_node};
         } else {
             // Search those sub-children, recursively!
-            auto maybeTreeNode = child->DFirstSearch(name);
-            if (maybeTreeNode) {
+            const auto found_node = child_node->DFind(name);
+            if (found_node) {
                 // Found it!
-                return *maybeTreeNode; // is a Tree after picking out the value with *
+                Node* subchild = *found_node;
+                return subchild;
             }
         }
     }
@@ -55,32 +86,42 @@ optional<Tree*> Tree::DFirstSearch(string& name) {
     return nullopt;
 }
 
-// Add a new child
-void Tree::AddChild(Tree* child) {
-    _children.push_back(child);
+//---
+
+Tree::Tree() {
+    _nodes = vector<Node> {};
 }
 
-// Print the tree with one-space indentation per level, depth first
-string Tree::str(unsigned indentation_level) {
-    stringstream s;
-    for (unsigned i=0; i < indentation_level; i++) {
-        s << "\t";
-    }
-    s << _name << endl;
-    for (auto& child: _children) {
-        for (unsigned i=0; i < indentation_level; i++) {
-            s << "\t";
+void Tree::Add(Node node) {
+    _nodes.push_back(node);
+}
+
+optional<Node*> Tree::Find(const string & name) {
+    for (auto & node: _nodes) {
+        if (node.Name() == name) {
+            return optional<Node*> {&node};
         }
-        //s << child->Name() << endl;
-        s << child->str(indentation_level + 1); // ends with newline
+    }
+    return nullopt;
+}
+
+void Tree::SetRoot(Node* node) {
+    _root_node = node;
+}
+
+Node* Tree::Root() {
+    return _root_node;
+}
+
+string Tree::str() {
+    stringstream s;
+    s << "Tree with " << _nodes.size() << " nodes";
+    for (auto & node: _nodes) {
+        s << node.str() << endl;
     }
     return s.str();
 }
 
-string Tree::Name() {
-    return _name;
-}
+// ---
 
-unsigned Tree::Weight() {
-    return _weight;
-}
+
