@@ -3,7 +3,7 @@
 Node::Node(const string & name, unsigned weight) {
     _name = name;
     _weight = weight;
-    _children = vector<Node*> {};
+    _children = vector<shared_ptr<Node>> {};
 }
 
 string Node::Name() {
@@ -22,11 +22,11 @@ void Node::SetWeight(unsigned weight) {
     _weight = weight;
 }
 
-vector<Node*> Node::Children() {
+vector<shared_ptr<Node>> Node::Children() {
     return _children;
 }
 
-void Node::AddChild(Node* node) {
+void Node::AddChild(shared_ptr<Node> node) {
     _children.push_back(node);
 }
 
@@ -37,16 +37,16 @@ string Node::str() {
 }
 
 // Breadth first search for a name,
-optional<Node*> Node::BFind(const string & name) {
+optional<shared_ptr<Node>> Node::BFind(const string & name) {
     if (_name == name) {
         // Found it! XD
-        return optional<Node*> {this};
+        return optional<shared_ptr<Node>> {this};
     }
     // Search the immediate children (but not in depth)
     for (const auto & child_node: _children) {
         if (child_node->Name() == name) {
             // Found it!
-            return optional<Node*> {child_node};
+            return optional<shared_ptr<Node>> {child_node};
         }
     }
     // Did not find it among the children, start searching the childrens' children
@@ -54,7 +54,7 @@ optional<Node*> Node::BFind(const string & name) {
         const auto found_node = child_node->BFind(name);
         if (found_node) {
             // Found it!
-            Node* subchild = *found_node;
+            shared_ptr<Node> subchild = *found_node;
             return subchild;
         }
     }
@@ -63,21 +63,21 @@ optional<Node*> Node::BFind(const string & name) {
 }
 
 // Depth first search for a name
-optional<Node*> Node::DFind(const string& name) {
+optional<shared_ptr<Node>> Node::DFind(const string& name) {
     if (_name == name) {
         // Found it! XD
-        return optional<Node*> {this};
+        return optional<shared_ptr<Node>> {this};
     }
     for (const auto & child_node: _children) {
         if (child_node->Name() == name) {
             // Found it!
-            return optional<Node*> {child_node};
+            return optional<shared_ptr<Node>> {child_node};
         } else {
             // Search those sub-children, recursively!
             const auto found_node = child_node->DFind(name);
             if (found_node) {
                 // Found it!
-                Node* subchild = *found_node;
+                shared_ptr<Node> subchild = *found_node;
                 return subchild;
             }
         }
@@ -89,27 +89,27 @@ optional<Node*> Node::DFind(const string& name) {
 //---
 
 Tree::Tree() {
-    _nodes = vector<Node> {};
+    _nodes = vector<shared_ptr<Node>> {};
 }
 
-void Tree::Add(Node node) {
+void Tree::Add(shared_ptr<Node> node) {
     _nodes.push_back(node);
 }
 
-optional<Node*> Tree::Find(const string & name) {
+optional<shared_ptr<Node>> Tree::Find(const string & name) {
     for (auto & node: _nodes) {
-        if (node.Name() == name) {
-            return optional<Node*> {&node};
+        if (node->Name() == name) {
+            return optional<shared_ptr<Node>> {node};
         }
     }
     return nullopt;
 }
 
-void Tree::SetRoot(Node* node) {
+void Tree::SetRoot(shared_ptr<Node> node) {
     _root_node = node;
 }
 
-Node* Tree::Root() {
+shared_ptr<Node> Tree::Root() {
     return _root_node;
 }
 
@@ -117,7 +117,7 @@ string Tree::str() {
     stringstream s;
     s << "Tree with " << _nodes.size() << " nodes";
     for (auto & node: _nodes) {
-        s << node.str() << endl;
+        s << node->str() << endl;
     }
     return s.str();
 }
