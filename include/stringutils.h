@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <fstream>
+#include <string>
+#include <string_view>
 #include <sstream>
 #include <vector>
-#include <string>
 
 using std::find_if;
 using std::ifstream;
@@ -10,6 +11,7 @@ using std::isspace;
 using std::istringstream;
 using std::pair;
 using std::string;
+using std::string_view;
 using std::vector;
 
 using namespace std::literals; // for ""s
@@ -57,26 +59,24 @@ inline const string trim(string s) {
 
 // --- end of trim functions from stackoverflow ---
 
-// length of a string, inspired by Go and Python
-inline const unsigned len(const string s) {
+// Get the length of anything with .length(), inspired by Go and Python
+template<class T>
+inline auto len(const T& s) {
     return s.length();
 }
 
 // Split a string into two pairs
-const pair<string, string> split(const string line, const string sep) {
-    pair<string, string> retval {""s, ""s};
+const pair<string, string> split(const string_view& line, const string_view& sep) {
+    pair<string, string> retval {};
     bool afterSep = false;
-    bool match;
-    unsigned i;
-    unsigned i2;
-    for (i=0; i < len(line); i++) {
+    for (unsigned i=0; i < len(line); i++) {
         if (i >= len(line)) {
             break;
         }
         if (line[i] == sep[0]) {
             // Found a first match, check the rest
-            match = true;
-            for (i2=0; i2 < len(sep); i2++) {
+            bool match = true;
+            for (unsigned i2=0; i2 < len(sep); i2++) {
                 if (i+i2 >= len(line) || line[i+i2] != sep[i2]) {
                     match = false;
                     break;
@@ -100,17 +100,14 @@ const pair<string, string> split(const string line, const string sep) {
 }
 
 // Split a string into a vector of strings
-const vector<string> splitv(const string line, const string sep) {
-    vector<string> retval {""s};
+const vector<string> splitv(const string_view& line, const string_view& sep) {
+    vector<string> retval {""s}; // must start with an empty string because of += below
     unsigned retcounter = 0;
-    bool match;
-    unsigned i;
-    unsigned i2;
-    for (i=0; i < len(line); i++) {
+    for (unsigned i=0; i < len(line); i++) {
         if (line[i] == sep[0]) {
             // Found a first match, check the rest
-            match = true;
-            for (i2=0; i2 < len(sep); i2++) {
+            bool match = true;
+            for (unsigned i2=0; i2 < len(sep); i2++) {
                 if (i+i2 >= len(line) || line[i+i2] != sep[i2]) {
                     match = false;
                     break;
@@ -135,7 +132,7 @@ const vector<string> splitv(const string line, const string sep) {
 const vector<string> trimv(const vector<string> words, const bool remove_empty) {
     vector<string> trimmed_words {};
     string trimmed_word;
-    for (const auto &word: words) {
+    for (const auto& word: words) {
         trimmed_word = trim(word);
         if (len(trimmed_word) > 0) {
             trimmed_words.push_back(trimmed_word);
@@ -145,10 +142,10 @@ const vector<string> trimv(const vector<string> words, const bool remove_empty) 
 }
 
 // Split a string into a words, and also take a char separator
-const vector<string> splitv(const string line, const char sep) {
+const vector<string> splitv(const string_view& line, const char sep) {
     vector<string> words;
     auto word = ""s;
-    for (const char &letter : line) {
+    for (const char& letter : line) {
         if (letter == sep) {
             words.push_back(word);
             word = ""s;
@@ -163,29 +160,29 @@ const vector<string> splitv(const string line, const char sep) {
 }
 
 // Split a string into words
-inline const vector<string> words(const string line) {
+inline const vector<string> words(const string_view& line) {
     return trimv(splitv(line, ' '), true);
 }
 
 // Split a string into words, and also take a string separator
-inline const vector<string> words(const string line, const string sep) {
+inline const vector<string> words(const string_view& line, const string_view& sep = " "s) {
     return trimv(splitv(line, sep), true);
 }
 
 // Split a string into trimmed words, and also take a char separator
-inline const vector<string> words(const string line, const char sep) {
+inline const vector<string> words(const string_view& line, const char sep = ' ') {
     return trimv(splitv(line, sep), true);
 }
 
 // Split a string into a words
-inline const vector<string> splitc(string line) {
+inline const vector<string> splitc(const string_view& line) {
     return splitv(line, ' ');
 }
 
 // Count the number of times a word appears in a list of words
-inline const unsigned count(const vector<string> words, const string word) {
+inline const unsigned count(const vector<string> words, const string_view& word) {
     auto counter = 0;
-    for (const string &x : words) {
+    for (const string& x : words) {
         if (x == word) {
             counter++;
         }
@@ -194,9 +191,9 @@ inline const unsigned count(const vector<string> words, const string word) {
 }
 
 // Count the number of times a char appears in a word
-inline const unsigned count(const string word, const char letter) {
+inline const unsigned count(const string_view& word, const char letter) {
     auto counter = 0;
-    for (const char &x : word) {
+    for (const char& x : word) {
         if (x == letter) {
             counter++;
         }
@@ -206,7 +203,7 @@ inline const unsigned count(const string word, const char letter) {
 
 // Read in all the lines in a text file.
 // Quick and dirty, no particular error checking.
-const vector<string> readlines(const string filename) {
+const vector<string> readlines(const string& filename) {
     vector<string> lines {};
     string line;
     ifstream infile {filename, ifstream::in};
@@ -220,8 +217,8 @@ const vector<string> readlines(const string filename) {
 }
 
 // Check if a vector<string> has the given string
-bool has(vector<string> words, string word) {
-    for (const auto &w: words) {
+bool has(vector<string> words, const string_view& word) {
+    for (const auto& w: words) {
         if (w == word) {
             return true;
         }
@@ -230,15 +227,15 @@ bool has(vector<string> words, string word) {
 }
 
 // Return the string between two given strigns, reading from left to right
-inline const string between(const string line, const string sep1, const string sep2) {
+inline const string between(const string_view& line, const string_view& sep1 = " "s, const string_view& sep2 = " "s) {
     return split(split(line, sep1).second, sep2).first;
 }
 
 // Return the string between two chars, reading from left to right
-inline const string between(const string line, const char sep1, const char sep2) {
+inline const string between(const string_view& line, const char sep1 = ' ', const char sep2 = ' ') {
     auto word = ""s;
     bool in_the_word = false;
-    for (const char &letter : line) {
+    for (const char& letter : line) {
         if (letter == sep2) {
             return word;
         }
@@ -253,8 +250,7 @@ inline const string between(const string line, const char sep1, const char sep2)
     return word; // did not find sep2
 }
 
-// convert a string to unsigned long, without checking anything
-inline const unsigned long to_unsigned_long(const string digits) {
-    return stoul(digits);
+// convert a string to unsigned long
+inline const unsigned long to_unsigned_long(const string& digits, const unsigned base = 10) {
+    return stoul(digits, 0, base);
 }
-
