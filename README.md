@@ -6,25 +6,24 @@ Solutions in C++17
 
 I am a beginner at C++17 and "modern" C++ in general.
 
-This is a learning experience for me.
+This is a learning experience.
 
 ## Requirements
 
 * g++ (GCC) 7 or later (or clang for `make clang`)
-* scons
-* make
+* [snakemake](https://github.com/xyproto/snakemake)
 
 ## Building
 
-    make
+    snakemake
 
 ## Building and running tests
 
-    make test
+    snakemake test
 
 ## Cleaning
 
-    make clean
+    snakemake clean
 
 ## General info
 
