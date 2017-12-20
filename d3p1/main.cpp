@@ -19,6 +19,6 @@ int main() {
     equal(manhattan(23), 2);
     equal(manhattan(1024), 31);
 
-    cout << "answer: " << manhattan(368078) << endl; // 371! :)
+    cout << "Answer: " << manhattan(368078) << endl; // 371! :)
     return 0;
 }
