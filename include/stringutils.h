@@ -112,7 +112,7 @@ const vector<string> trimv(const vector<string> words, const bool remove_empty) 
 }
 
 // Split a string into a vector of strings
-const vector<string> splitv(string& line, string& sep) {
+vector<string> splitv(const string& line, const string& sep) {
     vector<string> retval {""s}; // must start with an empty string because of += below
     unsigned retcounter = 0;
     for (unsigned i=0; i < len(line); i++) {
@@ -140,7 +140,7 @@ const vector<string> splitv(string& line, string& sep) {
 }
 
 // Split a string into a words, and also take a char separator
-const vector<string> splitv(string& line, char sep) {
+vector<string> splitv(const string& line, char sep) {
     vector<string> words;
     auto word = ""s;
     for (const char& letter : line) {
@@ -158,12 +158,12 @@ const vector<string> splitv(string& line, char sep) {
 }
 
 // Split a string into words, and also take a string separator
-inline vector<string> words(string & line, string & sep) {
+inline vector<string> words(const string& line, const string& sep) {
     return trimv(splitv(line, sep), true);
 }
 
 // Split a string into trimmed words, and also take a char separator
-inline vector<string> words(string & line, char sep = ' ') {
+inline vector<string> words(const string& line, const char sep = ' ') {
     return trimv(splitv(line, sep), true);
 }
 

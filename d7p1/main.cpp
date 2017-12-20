@@ -30,7 +30,7 @@ const vector<string> top_words(vector<string> lines) {
         //cout << word << " => ";
         if (other_words.size() > 0) {
             // This word is pointing at other words
-            pointing.push_back(word);
+            pointing.push_back(w);
         }
         for (const auto &other_word: other_words) {
             //cout << other_word << "; ";
