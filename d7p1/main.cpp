@@ -23,9 +23,9 @@ const vector<string> top_words(vector<string> lines) {
     vector<string> pointed_to {}; // words that have been pointed too
     vector<string> pointing {}; // words that are pointing to other words
     vector<string> all_words {}; // all the words
-    for (const auto &line: lines) {
-        const auto word = words(line)[0];
-        all_words.push_back(word);
+    for (const string & line: lines) {
+        const string w = words(line)[0];
+        all_words.push_back(w);
         const auto other_words = others(line);
         //cout << word << " => ";
         if (other_words.size() > 0) {
