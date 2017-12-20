@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 using std::cout;
 using std::endl;
