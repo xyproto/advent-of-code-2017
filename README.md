@@ -1,29 +1,25 @@
 # Advent of Code 2017
 
-Solutions in C++17
+Solutions for Advent of Code 2017 in C++17.
 
-## Disclaimer
-
-I am a beginner at C++17 and "modern" C++ in general.
-
-This is a learning experience.
+The solution with the highest number is work in progress.
 
 ## Requirements
 
 * g++ (GCC) 7 or later (or clang for `make clang`)
-* [snakemake](https://github.com/xyproto/snakemake)
+* [sakemake](https://github.com/xyproto/sakemake)
 
-## Building
+## Build
 
-    snakemake
+    sm
 
-## Building and running tests
+## Build and run tests
 
-    snakemake test
+    sm test
 
-## Cleaning
+## Clean
 
-    snakemake clean
+    sm clean
 
 ## General info
 
