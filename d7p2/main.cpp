@@ -78,17 +78,26 @@ Tree build_tree(vector<string> lines) {
         auto parent_name = words(line)[0];
         // For each child name, find that name it in the tree, or create it, and push that node a a child
         for (const auto & child_name: children(line)) {
+            cout << "A1" << endl;
             optional<shared_ptr<Node>> found_child = tree.Root()->BFind(child_name);
+            cout << "A2" << endl;
             optional<shared_ptr<Node>> found_parent = tree.Root()->BFind(parent_name);
+            cout << "A3" << endl;
             if (found_child && found_parent) {
+                cout << "B1" << endl;
                 shared_ptr<Node> child_node = *found_child;
+                cout << "B2" << endl;
                 shared_ptr<Node> parent_node = *found_parent;
+                cout << "B3" << endl;
                 parent_node->AddChild(child_node);
+                cout << "B4" << endl;
             } else {
                 cout << "ERROR: could not find one of these: " << child_name << ", " << parent_name << "!" << endl;
             }
         }
     }
+
+    cout << "B" << endl;
 
     // Find the root node
     optional<shared_ptr<Node>> found_root = tree.Root()->BFind(root_name);
