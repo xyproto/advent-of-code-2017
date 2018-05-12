@@ -4,7 +4,8 @@ WORK IN PROGRESS
 
 currently segfaults
 
-TODO:
+QtCreator + clang 4.6 helped a lot in fixing this!
 
-* Learn to use Valgrind.
-* Learn more about smart pointers.
+Also, using `make_shared` helped.
+
+See: `cppprojects/tree`
