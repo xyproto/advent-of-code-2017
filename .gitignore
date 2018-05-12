@@ -56,3 +56,5 @@ build/
 
 # Unwanted IDE files
 *.kdev4
+
+build-*-Debug/

@@ -60,7 +60,7 @@ int main() {
     equal(sum_coupled_digits("1234"s, 1), static_cast<sum_t>(0));
     equal(sum_coupled_digits("91212129"s, 1), static_cast<sum_t>(9));
 
-    #include "long_string.inc"
+    #include "../include/long_string.inc"
 
     equal(sum_coupled_digits(long_string, 1), static_cast<sum_t>(1144));
 

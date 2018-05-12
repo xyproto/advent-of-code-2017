@@ -99,7 +99,7 @@ const pair<string, string> split(const string& line, const string& sep) {
 
 // Trim all strings in a vector of strings
 // Will remove empty elements after trimming if remove_empty is true
-const vector<string> trimv(const vector<string> words, const bool remove_empty) {
+const vector<string> trimv(const vector<string> words) {
     vector<string> trimmed_words {};
     string trimmed_word;
     for (const auto& word: words) {
@@ -159,12 +159,12 @@ vector<string> splitv(const string& line, char sep) {
 
 // Split a string into words, and also take a string separator
 inline vector<string> words(const string& line, const string& sep) {
-    return trimv(splitv(line, sep), true);
+    return trimv(splitv(line, sep));
 }
 
 // Split a string into trimmed words, and also take a char separator
 inline vector<string> words(const string& line, const char sep = ' ') {
-    return trimv(splitv(line, sep), true);
+    return trimv(splitv(line, sep));
 }
 
 // Split a string into a words
@@ -173,7 +173,7 @@ inline vector<string> splitc(const string& line) {
 }
 
 // Count the number of times a word appears in a list of words
-inline const unsigned count(const vector<string> words, const string& word) {
+inline unsigned count(const vector<string> words, const string& word) {
     auto counter = 0;
     for (const string& x : words) {
         if (x == word) {
@@ -184,7 +184,7 @@ inline const unsigned count(const vector<string> words, const string& word) {
 }
 
 // Count the number of times a char appears in a word
-inline const unsigned count(const string& word, const char letter) {
+inline unsigned count(const string& word, const char letter) {
     auto counter = 0;
     for (const char& x : word) {
         if (x == letter) {
@@ -244,6 +244,6 @@ inline const string between(const string& line, const char sep1 = ' ', const cha
 }
 
 // convert a string to unsigned long
-inline const unsigned long to_unsigned_long(const string& digits, const unsigned base = 10) {
+inline unsigned long to_unsigned_long(const string& digits, const unsigned base = 10) {
     return stoul(digits, 0, base);
 }

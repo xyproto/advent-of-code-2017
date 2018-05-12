@@ -7,42 +7,43 @@
 #include <vector>
 
 using std::endl;
+using std::make_shared;
 using std::nullopt;
 using std::optional;
-using std::unique_ptr;
+using std::shared_ptr;
 using std::string;
 using std::string_view;
 using std::stringstream;
 using std::vector;
 
 class Node {
- private:
-  string _name;
-  unsigned _weight;
-  vector<unique_ptr<Node>> _children;  // children
- public:
-  Node(const string& name, unsigned weight = 0);
-  string Name();
-  void SetName(const string& name);
-  unsigned Weight();
-  void SetWeight(unsigned weight);
-  vector<unique_ptr<Node>> Children();
-  void AddChild(unique_ptr<Node> node);
-  string str();
-  const optional<unique_ptr<Node>> BFind(const string& name);
-  const optional<unique_ptr<Node>> DFind(const string& name);
+private:
+    string _name;
+    unsigned _weight;
+    vector<shared_ptr<Node>> _children; // children
+public:
+    Node(const string& name, unsigned weight = 0);
+    string Name();
+    void SetName(const string& name);
+    unsigned Weight();
+    void SetWeight(unsigned weight);
+    vector<shared_ptr<Node>> Children();
+    void AddChild(shared_ptr<Node> node);
+    string str();
+    const optional<shared_ptr<Node>> BFind(const string& name);
+    const optional<shared_ptr<Node>> DFind(const string& name);
 };
 
 class Tree {
- private:
-  vector<unique_ptr<Node>> _nodes;
-  unique_ptr<Node> _root_node;
+private:
+    vector<shared_ptr<Node>> _nodes;
+    shared_ptr<Node> _root_node;
 
- public:
-  Tree();
-  void Add(unique_ptr<Node> node);
-  string str();
-  void SetRoot(unique_ptr<Node> node);
-  unique_ptr<Node> Root();
-  optional<unique_ptr<Node>> Find(const string& name);
+public:
+    Tree();
+    void Add(shared_ptr<Node> node);
+    string str();
+    void SetRoot(shared_ptr<Node> node);
+    shared_ptr<Node> Root();
+    optional<shared_ptr<Node>> Find(const string& name);
 };

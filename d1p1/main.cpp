@@ -47,7 +47,7 @@ int main() {
     equal(sum_equal_digits("1234"s), static_cast<sum_t>(0));
     equal(sum_equal_digits("91212129"s), static_cast<sum_t>(9));
 
-    #include "long_string.inc"
+    #include "../include/long_string.inc"
 
     equal(sum_equal_digits(long_string), static_cast<sum_t>(1144));
     return 0;
