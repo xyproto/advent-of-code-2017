@@ -154,8 +154,7 @@ Tree build_tree(vector<string> lines)
 int main()
 {
     cout << "---input.txt ---" << endl;
-    auto tree1
-        = build_tree(readlines(std::string(std::getenv("HOME")) + "/cppprojects/tree/input.txt"));
+    auto tree1 = build_tree(readlines("input.txt"));
     cout << tree1.str() << endl;
 
     // cout << "--- input2.txt ---" << endl;
